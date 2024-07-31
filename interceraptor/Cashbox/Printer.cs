@@ -20,7 +20,7 @@ namespace interceraptor.Cashbox
 
         private Printer() { }
 
-        public async static Task<Printer> Get()
+        public static Printer Get()
         {
             if (_singleton == null)
             {
@@ -56,7 +56,7 @@ namespace interceraptor.Cashbox
 
         }
 
-        public string Print(JObject doc)
+        public Server.PayResponse Print(JObject doc)
         {
 
             //if (doc.Services.Count > 0 && doc.Services[0].ReturnShipping == 1)
@@ -93,12 +93,14 @@ namespace interceraptor.Cashbox
 
             foreach (var service in doc["agreement"]["services"])
             {
-                _driver.Password = 1; // ? 
+                _driver.Password = CashierPassword;
                 _driver.Timeout = timeout;
 
                 _driver.Quantity = int.Parse(service["qty"].ToString());
                 _driver.Price = decimal.Parse(service["price"].ToString());
-                _driver.StringForPrinting = service["name"].ToString();
+
+                string utf8 = Win1251toUTF8(service["name"].ToString());
+                _driver.StringForPrinting = UTF8ToWin1251(utf8);
 
                 _driver.Department = int.Parse(service["department"].ToString());
 
@@ -148,32 +150,54 @@ namespace interceraptor.Cashbox
             int checkClosingResult = _driver.ResultCode;
             string checkClosingErrorText = _driver.ResultCodeDescription;
 
+            /// tmp
+
+            var response = new Server.PayResponse();
+
             //Log.AddWithCode("распечатка чека");
 
             if (checkClosingResult != 0)
             {
                 PrepareDriver();
 
-                //Driver.CancelCheck();
+                _driver.CancelCheck();
+
+                response.error = new Server.PayResponse.ErrorType
+                {
+                    type = "CASHDESK",
+                    message = _driver.ResultCodeDescription,
+                };
 
                 //Log.AddWithCode("отмена чека");
             }
-            //else if (!MainWindow.TEST_VERSION && !doc.Region)
-            //{
-            //    repeatPrintingTimer.Enabled = true;
-            //    repeatPrintingTimer.Start();
-            //}
+            else
+            {
+                //repeatPrintingTimer.Enabled = true;
+                //repeatPrintingTimer.Start();
 
-            //if (checkClosingResult == 0)
-            //    return "OK:" + Driver.Change;
-            //else
-            //{
-            //    CRM.SendError(checkClosingErrorText, doc.AgrNumber);
+                response.checkNo = _driver.DocumentNumber.ToString();
+                response.cashChange = _driver.Change.ToString();
+            }
 
-            //    return "ERR2:" + checkClosingErrorText;
-            //}
+            return response;
+        }
 
-            return String.Empty;
+        private string Win1251toUTF8(string sourceStr)
+        {
+            Encoding utf8 = Encoding.GetEncoding("UTF-8");
+            Encoding win1251 = Encoding.GetEncoding("Windows-1251");
+            byte[] utf8Bytes = win1251.GetBytes(sourceStr);
+            byte[] win1251Bytes = Encoding.Convert(utf8, win1251, utf8Bytes);
+            return win1251.GetString(win1251Bytes);
+        }
+
+        private string UTF8ToWin1251(string sourceStr)
+        {
+            Encoding utf8 = Encoding.UTF8;
+            Encoding win1251 = Encoding.GetEncoding("Windows-1251");
+            byte[] utf8Bytes = utf8.GetBytes(sourceStr);
+            byte[] win1251Bytes = Encoding.Convert(utf8, win1251, utf8Bytes);
+            return win1251.GetString(win1251Bytes);
         }
     }
 }

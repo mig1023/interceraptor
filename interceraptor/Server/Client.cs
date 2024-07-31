@@ -13,23 +13,10 @@ namespace interceraptor.Server
             var parser = Parser.Get();
             var json = parser.GetRequestBody(request);
 
-            /// cashbox
-            //Cashbox.Printer printer = Cashbox.Printer.Get();
-            var printer = Cashbox.Printer.Get().GetAwaiter().GetResult();
-            string check = printer.Print(json);
+            var printer = Cashbox.Printer.Get();
+            var checkData = printer.Print(json);
 
-            PayResponse dummyResponse = new PayResponse
-            {
-                checkNo = "1",
-                cashChange = "0",
-                error = new PayResponse.ErrorType
-                {
-                    type = "USER",
-                    message = "ERR"
-                },
-            };
-
-            Send(dummyResponse, context);
+            Send(checkData, context);
         }
 
         private async void Send(PayResponse data, HttpListenerContext context)
