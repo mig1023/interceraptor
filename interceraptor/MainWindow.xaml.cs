@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace interceraptor
@@ -12,38 +14,69 @@ namespace interceraptor
 
         private async void LetsConnect_Click(object sender, RoutedEventArgs e)
         {
-            Waiting("Запуск сервера...");
+            Waiting("Запуск внутреннего сервера...");
 
             Server.Listener.Start();
 
             Waiting("Подключение к кассе...");
 
-            Cashbox.Connect cashbox = await Cashbox.Connect.Get();
+            var cashbox = await Cashbox.Connect.Get();
 
             Waiting("Подключение к серверу...");
 
-            CRM.Connect server = CRM.Connect.Get();
+            var server = CRM.Connect.Get();
 
             bool isConnected = await server.Authentication(Login.Text, Password.Password, String.Empty);
 
             if (!isConnected)
             {
                 MessageBox.Show("Error: " + server.Current.Error);
+                Disconnect();
                 return;
             }
 
-            CRM.Echo echo = CRM.Echo.Get();
+            Waiting("Проверка связи с серверов...");
+
+           var echo = CRM.Echo.Get();
 
             bool isPingSuccess = await echo.Ping();
 
             if (!isPingSuccess)
             {
                 MessageBox.Show("Server ping error!");
+                Disconnect();
+                return;
             }
 
             echo.StartWoodpecker();
 
+            Waiting("Установка данных кассира в кассе...");
+
+            var cashier = CRM.Cashier.Get();
+            var currentCashier = await cashier.Current();
+
+            if (currentCashier.isLocked)
+            {
+                MessageBox.Show("Cashiers locked!");
+                Disconnect();
+                return;
+            }
+
+            var setting = await Cashbox.Setting.Get();
+
+            if (!setting.Cashier(currentCashier.cashier))
+            {
+                MessageBox.Show("Cashiers error!");
+                Disconnect();
+                return;
+            }
+
             Waiting("Interceraptor работает");
+        }
+
+        private void Disconnect()
+        {
+            //
         }
 
         private void Waiting(string text)

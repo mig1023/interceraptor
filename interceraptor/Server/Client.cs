@@ -10,10 +10,13 @@ namespace interceraptor.Server
     {
         public Client(HttpListenerRequest request, HttpListenerContext context)
         {
-            Parser parser = Parser.Get();
-            JObject json = parser.GetRequestBody(request);
+            var parser = Parser.Get();
+            var json = parser.GetRequestBody(request);
 
             /// cashbox
+            //Cashbox.Printer printer = Cashbox.Printer.Get();
+            var printer = Cashbox.Printer.Get().GetAwaiter().GetResult();
+            string check = printer.Print(json);
 
             PayResponse dummyResponse = new PayResponse
             {

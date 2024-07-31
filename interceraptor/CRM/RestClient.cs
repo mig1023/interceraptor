@@ -25,5 +25,10 @@ namespace interceraptor.CRM
 
             return response;
         }
+
+        public async Task<HttpResponseMessage> GetDataAsync(string url)
+        {
+            return await _httpClient.GetAsync(url);
+        }
     }
 }

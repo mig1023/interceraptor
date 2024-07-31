@@ -7,6 +7,8 @@ namespace interceraptor.Cashbox
     {
         private DrvFR _driver { get; set; }
 
+        public DrvFR Driver { get { return _driver; } }
+
         private static Connect _singleton { get; set; }
 
         public CashboxData Data { get; set; }

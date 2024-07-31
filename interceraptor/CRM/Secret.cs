@@ -11,5 +11,7 @@ namespace interceraptor.CRM
         public const string AuthenticationPath = IP + ":80/login?login=string&password=string";
 
         public const string EchoPath = IP + ":80/echo";
+
+        public const string CashierPath = IP + ":80/conf/user/";
     }
 }

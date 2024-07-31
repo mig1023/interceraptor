@@ -10,7 +10,7 @@ namespace interceraptor.CRM
     {
         private static Connect _singleton { get; set; }
 
-        public ConnectionData Current { get; set; }
+        public ConnectData Current { get; set; }
 
         private Connect() { }
 
@@ -19,7 +19,7 @@ namespace interceraptor.CRM
             if (_singleton == null)
             {
                 _singleton = new Connect();
-                _singleton.Current = new ConnectionData();
+                _singleton.Current = new ConnectData();
             }
 
             return _singleton;
