@@ -22,6 +22,13 @@ namespace interceraptor
 
             var cashbox = await Cashbox.Connect.Get();
 
+            if (!cashbox.Check())
+            {
+                MessageBox.Show("Cashbox connection error!");
+                Disconnect();
+                return;
+            }
+
             Waiting("Подключение к серверу...");
 
             var server = CRM.Connect.Get();
@@ -35,9 +42,9 @@ namespace interceraptor
                 return;
             }
 
-            Waiting("Проверка связи с серверов...");
+            Waiting("Проверка связи с сервером...");
 
-           var echo = CRM.Echo.Get();
+            var echo = CRM.Echo.Get();
 
             bool isPingSuccess = await echo.Ping();
 
@@ -49,6 +56,18 @@ namespace interceraptor
             }
 
             echo.StartWoodpecker();
+
+            Waiting("Загрузка данных с сервера...");
+
+            var services = CRM.Services.Get();
+            bool loaded = await services.Load();
+
+            if (!loaded)
+            {
+                MessageBox.Show("Services loading error!");
+                Disconnect();
+                return;
+            }
 
             Waiting("Установка данных кассира в кассе...");
 

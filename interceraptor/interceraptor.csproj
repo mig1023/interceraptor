@@ -72,6 +72,8 @@
     <Compile Include="Cashbox\Setting.cs" />
     <Compile Include="CRM\Cashier.cs" />
     <Compile Include="CRM\CashierData.cs" />
+    <Compile Include="CRM\Services.cs" />
+    <Compile Include="CRM\ServicesData.cs" />
     <Compile Include="Server\Client.cs" />
     <Compile Include="Server\Listner.cs" />
     <Compile Include="Server\Parser.cs" />

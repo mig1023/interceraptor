@@ -36,5 +36,11 @@ namespace interceraptor.Cashbox
             _driver.ReadSerialNumber();
             return _singleton._driver.SerialNumber;
         }
+
+        public bool Check()
+        {
+            _driver.CheckConnection();
+            return _driver.ResultCode == 0;
+        }
     }
 }
