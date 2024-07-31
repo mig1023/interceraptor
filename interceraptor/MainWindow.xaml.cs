@@ -12,6 +12,10 @@ namespace interceraptor
 
         private async void LetsConnect_Click(object sender, RoutedEventArgs e)
         {
+            Waiting("Запуск сервера...");
+
+            Server.Listner.Start();
+
             Waiting("Подключение к кассе...");
 
             Cashbox.Connect cashbox = await Cashbox.Connect.Get();
@@ -43,6 +47,8 @@ namespace interceraptor
             }
 
             echo.StartWoodpecker();
+
+            Waiting("Interceraptor работает");
         }
 
         private void Waiting(string text)
