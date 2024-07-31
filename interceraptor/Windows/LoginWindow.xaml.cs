@@ -1,13 +1,14 @@
-﻿using System;
+﻿using interceraptor.Windows;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace interceraptor
+namespace interceraptor.Windows
 {
-    public partial class MainWindow : Window
+    public partial class LoginWindow : Window
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
         }
@@ -90,7 +91,15 @@ namespace interceraptor
                 return;
             }
 
-            Waiting("Interceraptor работает");
+            this.Hide();
+
+            MainWindow mainWindow = new MainWindow
+            {
+                Left = this.Left,
+                Top = this.Top,
+            };
+
+            mainWindow.Show();
         }
 
         private void Disconnect()

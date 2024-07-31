@@ -13,6 +13,8 @@ namespace interceraptor.CRM
 
         private List<ServicesData> _services { get; set; }
 
+        public List<ServicesData> List { get { return _services; } }
+
         private Services() { }
 
         public static Services Get()
@@ -91,6 +93,9 @@ namespace interceraptor.CRM
 
             foreach (var token in services["nomenclature"])
             {
+                if (token["isEnabled"].ToString() == "false")
+                    continue;
+
                 var service = new ServicesData
                 {
                     id = token["id"].ToString(),

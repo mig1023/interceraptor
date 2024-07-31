@@ -79,7 +79,13 @@
     <Compile Include="Server\Parser.cs" />
     <Compile Include="Server\PayResponse.cs" />
     <Compile Include="Server\Secret.cs" />
-    <Page Include="Login.xaml">
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ManuallyWindow.xaml.cs">
+      <DependentUpon>ManuallyWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Windows\LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -97,10 +103,18 @@
     <Compile Include="CRM\RestClient.cs" />
     <Compile Include="CRM\Secret.cs" />
     <Compile Include="CRM\Request.cs" />
-    <Compile Include="Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
+    <Compile Include="Windows\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ManuallyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

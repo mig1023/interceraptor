@@ -1,0 +1,13 @@
+﻿<Window x:Class="interceraptor.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:interceraptor.Windows"
+        mc:Ignorable="d"
+        Title="Main" Height="400" Width="700" Closed="Window_Closed">
+    <Grid>
+        <Button x:Name="ManuallyButton" Content="чек вручную" HorizontalAlignment="Left" Margin="301,112,0,0" VerticalAlignment="Top" Width="115" Click="ManuallyButton_Click"/>
+
+    </Grid>
+</Window>
