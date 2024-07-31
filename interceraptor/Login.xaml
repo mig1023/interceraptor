@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:interceraptor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="interceraptor" Height="350" Width="525">
     <Grid>
         <StackPanel x:Name="LoginForm" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible">
             <TextBox x:Name="Login" HorizontalAlignment="Left" Margin="10" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="374"/>

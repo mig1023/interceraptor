@@ -79,7 +79,7 @@
     <Compile Include="Server\Parser.cs" />
     <Compile Include="Server\PayResponse.cs" />
     <Compile Include="Server\Secret.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="Login.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -97,8 +97,8 @@
     <Compile Include="CRM\RestClient.cs" />
     <Compile Include="CRM\Secret.cs" />
     <Compile Include="CRM\Request.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
