@@ -1,29 +1,51 @@
-﻿using System;
-using System.Net.Sockets;
+﻿using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Net;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace interceraptor.Server
 {
     class Client
     {
-        public Client(TcpClient Client)
+        public Client(HttpListenerRequest request, HttpListenerContext context)
         {
-            string request = String.Empty;
+            Parser parser = Parser.Get();
+            JObject json = parser.GetRequestBody(request);
 
-            byte[] buffer = new byte[1024];
-            int count = 0;
+            /// cashbox
 
-            while ((count = Client.GetStream().Read(buffer, 0, buffer.Length)) > 0)
+            PayResponse dummyResponse = new PayResponse
             {
-                request += Encoding.ASCII.GetString(buffer, 0, count);
+                checkNo = "1",
+                cashChange = "0",
+                error = new PayResponse.ErrorType
+                {
+                    type = "USER",
+                    message = "ERR"
+                },
+            };
 
-                if (request.IndexOf("\r\n\r\n") >= 0)
-                    break;
+            Send(dummyResponse, context);
+        }
+
+        private async void Send(PayResponse data, HttpListenerContext context)
+        {
+            var connect = CRM.Connect.Get();
+            var response = context.Response;
+
+            var jsonData = JsonConvert.SerializeObject(data);
+            byte[] responseBytes = Encoding.UTF8.GetBytes(jsonData);
+
+            response.ContentLength64 = responseBytes.Length;
+            response.Headers.Add("Content-Type", "application/json");
+            response.Headers.Add("Authorization", $"Bearer {connect.Current.Token}");
+
+            using (Stream output = response.OutputStream)
+            {
+                await output.WriteAsync(responseBytes, 0, responseBytes.Length);
+                await output.FlushAsync();
             }
-
-            request = Uri.UnescapeDataString(request);
-
-            Client.Close();
         }
     }
 }

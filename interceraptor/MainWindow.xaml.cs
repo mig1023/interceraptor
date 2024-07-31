@@ -14,7 +14,7 @@ namespace interceraptor
         {
             Waiting("Запуск сервера...");
 
-            Server.Listner.Start();
+            Server.Listener.Start();
 
             Waiting("Подключение к кассе...");
 
@@ -34,16 +34,11 @@ namespace interceraptor
 
             CRM.Echo echo = CRM.Echo.Get();
 
-            bool isEchoConnected = await echo.Ping();
+            bool isPingSuccess = await echo.Ping();
 
-            if (isEchoConnected)
+            if (!isPingSuccess)
             {
-                MessageBox.Show($"Success connected!\n\nToken: " + server.Current.Token +
-                    "\n\nUserId: " + server.Current.UserId + "\n\nRefreshToken: " + server.Current.RefreshToken);
-            }
-            else
-            {
-                MessageBox.Show("Echo error!");
+                MessageBox.Show("Server ping error!");
             }
 
             echo.StartWoodpecker();

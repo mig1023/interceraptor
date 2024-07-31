@@ -1,49 +1,59 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Net;
-using System.Net.Sockets;
-using System.Threading;
 
 namespace interceraptor.Server
 {
-    class Listner
+    class Listener
     {
-        private TcpListener _listener { get; set; }
+        private HttpListener _listener { get; set; }
 
         private static readonly BackgroundWorker _server = new BackgroundWorker();
 
-        public Listner(int port)
+        public Listener(int port)
         {
-            _listener = new TcpListener(IPAddress.Any, port);
+            var connect = CRM.Connect.Get();
+
+            _listener = new HttpListener();
+            _listener.Prefixes.Add($"http://{connect.CurrentIP()}:{port}/");
+            _listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
             _listener.Start();
 
             while (true)
             {
-                ThreadPool.QueueUserWorkItem(new WaitCallback(ClientThread), _listener.AcceptTcpClient());
+                var result = _listener.BeginGetContext(new AsyncCallback(ClientThread), _listener);
+                result.AsyncWaitHandle.WaitOne();
             }
         }
 
-        private void ClientThread(object state)
+        private void ClientThread(IAsyncResult result)
         {
-            string endPoint = (state as TcpClient).Client.RemoteEndPoint.ToString();
+            var context = _listener.EndGetContext(result);
+            var request = context.Request;
 
-            if (!Secret.IsAuthorised(endPoint))
+            string ip = request.RemoteEndPoint.Address.ToString();
+
+            if (!Secret.IsAuthorised(ip))
                 return;
 
-            new Client((TcpClient)state);
+            if (!request.HasEntityBody)
+                return;
+
+            new Client(request, context);
         }
 
         public static void Start()
         {
-            _server.DoWork += Lister;
+            _server.DoWork += DoListener;
             _server.RunWorkerAsync();
         }
 
-        private static void Lister(object sender, DoWorkEventArgs e)
+        private static void DoListener(object sender, DoWorkEventArgs e)
         {
-            new Listner(Secret.Port);
+            new Listener(Secret.Port);
         }
 
-        ~Listner()
+        ~Listener()
         {
             if (_listener != null)
             {
