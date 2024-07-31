@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Net;
+using System.Net.Sockets;
 
 namespace interceraptor.CRM
 {
     class Connect
     {
-        private RestClient _restClient { get; set; }
-
         private static Connect _singleton { get; set; }
 
         public ConnectionData Current { get; set; }
@@ -25,24 +20,9 @@ namespace interceraptor.CRM
             {
                 _singleton = new Connect();
                 _singleton.Current = new ConnectionData();
-                _singleton._restClient = new RestClient();
             }
 
             return _singleton;
-        }
-
-        private async Task<String> SendLogin(string url, object data)
-        {
-            var response = await _restClient.PostDataAsync(url, data);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return String.Empty;
-            }
-            else
-            {
-                return await response.Content.ReadAsStringAsync();
-            }
         }
 
         private bool Error(string text)
@@ -53,13 +33,13 @@ namespace interceraptor.CRM
 
         public async Task<bool> Authentication(string login, string passwordLine, string serialNo)
         {
-            string url = Secret.authPath;
+            string url = Secret.AuthenticationPath;
             string authentication = String.Empty;
             Current.IsConnected = false;
 
             try
             {
-                authentication = await SendLogin(url, new LoginData { Login = login, Password = passwordLine });
+                authentication = await Request.Send(url, new LoginData { login = login, password = passwordLine });
             }
             catch (Exception)
             {
@@ -77,9 +57,9 @@ namespace interceraptor.CRM
                 return Error("Ошибка данных, полученых от сервера");
             }
 
-            if (String.IsNullOrEmpty(data["data"].ToString()))
+            if (!String.IsNullOrEmpty(data["message"].ToString()))
             {
-                return Error("Ошибка от сервера: " + data["message"].ToString());
+                return Error("Ошибка от сервера:\n" + data["message"].ToString());
             }
 
             try
@@ -95,6 +75,19 @@ namespace interceraptor.CRM
 
             Current.IsConnected = false;
             return true;
+        }
+
+        public string CurrentIP()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    return ip.ToString();
+            }
+
+            return String.Empty;
         }
     }
 }

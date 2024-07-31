@@ -77,9 +77,12 @@
     <Compile Include="Cashbox\CashboxData.cs" />
     <Compile Include="CRM\Connect.cs" />
     <Compile Include="CRM\ConnectionData.cs" />
+    <Compile Include="CRM\Echo.cs" />
+    <Compile Include="CRM\EchoData.cs" />
     <Compile Include="CRM\LoginData.cs" />
     <Compile Include="CRM\RestClient.cs" />
     <Compile Include="CRM\Secret.cs" />
+    <Compile Include="CRM\Request.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

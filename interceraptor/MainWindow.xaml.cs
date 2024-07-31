@@ -1,18 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace interceraptor
 {
@@ -23,7 +10,7 @@ namespace interceraptor
             InitializeComponent();
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void LetsConnect_Click(object sender, RoutedEventArgs e)
         {
             Waiting("Подключение к кассе...");
 
@@ -33,37 +20,35 @@ namespace interceraptor
 
             CRM.Connect server = CRM.Connect.Get();
 
-            // echo
-
-            Wait.Visibility = Visibility.Hidden;
-            LoginForm.Visibility = Visibility.Visible;
-        }
-
-        private async void LetsConnect_Click(object sender, RoutedEventArgs e)
-        {
-            Waiting("Логинимся...");
-
-            CRM.Connect server = CRM.Connect.Get();
-
             bool isConnected = await server.Authentication(Login.Text, Password.Password, String.Empty);
 
-            if (isConnected)
+            if (!isConnected)
             {
-                Wait.Visibility = Visibility.Hidden;
+                MessageBox.Show("Error: " + server.Current.Error);
+                return;
+            }
 
+            CRM.Echo echo = CRM.Echo.Get();
+
+            bool isEchoConnected = await echo.Ping();
+
+            if (isEchoConnected)
+            {
                 MessageBox.Show($"Success connected!\n\nToken: " + server.Current.Token +
                     "\n\nUserId: " + server.Current.UserId + "\n\nRefreshToken: " + server.Current.RefreshToken);
             }
             else
             {
-                Wait.Visibility = Visibility.Hidden;
-
-                MessageBox.Show("Error: " + server.Current.Error);
+                MessageBox.Show("Echo error!");
             }
+
+            echo.StartWoodpecker();
         }
 
         private void Waiting(string text)
         {
+            LoginForm.Visibility = Visibility.Hidden;
+
             WaitFor.Content = text;
 
             if (Wait.Visibility != Visibility.Visible)

@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:interceraptor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+        Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <StackPanel x:Name="LoginForm" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+        <StackPanel x:Name="LoginForm" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible">
             <TextBox x:Name="Login" HorizontalAlignment="Left" Margin="10" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="374"/>
             <PasswordBox x:Name="Password" HorizontalAlignment="Left" Margin="10" Height="24" VerticalAlignment="Top" Width="374"/>
             <Button x:Name="LetsConnect" Content="залогиниться" Margin="10" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="107" Height="37" Click="LetsConnect_Click"/>
         </StackPanel>
-        <StackPanel x:Name="Wait" Orientation="Vertical" VerticalAlignment="Center" Visibility="Visible" HorizontalAlignment="Stretch">
+        <StackPanel x:Name="Wait" Orientation="Vertical" VerticalAlignment="Center" Visibility="Hidden" HorizontalAlignment="Stretch">
             <MediaElement x:Name="WaitSpinner" Height="275" Width="269" UnloadedBehavior="Manual" Source="Images/spinner.gif" LoadedBehavior="Play" Stretch="None" MediaEnded="WaitSpinner_MediaEnded" />
             <Label x:Name="WaitFor" FontSize="15" Margin="0,-20,0,0" Content="" HorizontalAlignment="Center"/>
         </StackPanel>
