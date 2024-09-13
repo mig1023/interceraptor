@@ -150,6 +150,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\direct.png" />
+    <Resource Include="Images\manually.png" />
+    <Resource Include="Images\reception.png" />
+    <Resource Include="Images\reports.png" />
     <Content Include="Images\spinner.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

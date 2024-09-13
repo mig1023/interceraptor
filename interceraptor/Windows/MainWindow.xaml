@@ -5,9 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:interceraptor.Windows"
         mc:Ignorable="d"
-        Title="Main" Height="400" Width="700" Closed="Window_Closed">
+        Title="Main" Height="400" Width="900" Closed="Window_Closed">
     <Grid>
-        <Button x:Name="ManuallyButton" Content="чек вручную" HorizontalAlignment="Left" Margin="301,112,0,0" VerticalAlignment="Top" Width="115" Click="ManuallyButton_Click"/>
-
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto" MinHeight="90" MaxHeight="250"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="ReportsButton" Grid.Column="0" Grid.Row="1" Content="отчёты, повторы" FontSize="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10, 20"/>
+            <Button x:Name="ManuallyButton" Grid.Column="1" Grid.Row="1" Content="чек вручную" FontSize="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10, 20" Click="ManuallyButton_Click"/>
+            <Button x:Name="ReceptionButton" Grid.Column="2" Grid.Row="1" Content="ресепшен" FontSize="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10, 20"/>
+            <Button x:Name="DirectButton" Grid.Column="3" Grid.Row="1" Content="прямая оплата" FontSize="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10, 20"/>
+            <Image x:Name="ReportsImage" Grid.Column="0" Grid.Row="0" Margin="20" MaxHeight="200" MaxWidth="200" Source="pack://application:,,,/Images/reports.png"/>
+            <Image x:Name="ManuallyImage" Grid.Column="1" Grid.Row="0" Margin="20" MaxHeight="200" MaxWidth="200" Source="pack://application:,,,/Images/manually.png"/>
+            <Image x:Name="ReceptionImage" Grid.Column="2" Grid.Row="0" Margin="20" MaxHeight="200" MaxWidth="200" Source="pack://application:,,,/Images/reception.png"/>
+            <Image x:Name="DirectImage" Grid.Column="3" Grid.Row="0" Margin="20" MaxHeight="200" MaxWidth="200" Source="pack://application:,,,/Images/direct.png"/>
+        </Grid>
     </Grid>
 </Window>

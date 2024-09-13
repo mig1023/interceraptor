@@ -18,7 +18,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
                 <Button x:Name="CloseCheck" Grid.Column="0" Grid.Row="0" Height="50" Margin="10" FontSize="18" Content="подытог" Click="CloseCheck_Click"/>
                 <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="True">
                     <Label Content="руб" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Right"/>
