@@ -39,7 +39,7 @@ namespace interceraptor.Windows
 
             if (!isConnected)
             {
-                MessageBox.Show($"Ошибка подключения к серверу:\n{server.Current.Error}");
+                MessageBox.Show(server.Current.Error);
                 Disconnect();
                 return;
             }

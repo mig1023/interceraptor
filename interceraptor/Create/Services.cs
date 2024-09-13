@@ -36,28 +36,28 @@ namespace interceraptor.Create
         {
             if (_services.ContainsKey(id))
             {
-                _services[id].count += 1;
+                _services[id].qty += 1;
             }
             else
             {
                 var crmServices = CRM.Services.Get();
                 var service = crmServices.Dictionary[id];
-                service.count = 1;
+                service.qty = 1;
                 _services.Add(service.id, service);
             }
         }
 
         public void Sub(string id)
         {
-            if (_services.ContainsKey(id) && (_services[id].count > 0))
-                _services[id].count -= 1;
+            if (_services.ContainsKey(id) && (_services[id].qty > 0))
+                _services[id].qty -= 1;
         }
 
         public int Count(string id)
         {
             if (_services.ContainsKey(id))
             {
-                return _services[id].count;
+                return _services[id].qty;
             }
             else
             {

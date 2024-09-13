@@ -200,8 +200,24 @@ namespace interceraptor.Windows
 
             Create.DocPack docPack = Create.DocPack.Get();
             var services = Create.Services.Get();
+
             docPack.Init(services.List);
+
             var calculedDocPack = await docPack.Calculate();
+
+            string servicesLine = String.Empty;
+
+            foreach (var service in docPack.List())
+            {
+                servicesLine += service.name + "\t" + service.qty + " шт\t" + service.price + " р\n";
+            }
+
+            CloseCheck.IsEnabled = false;
+            Wait.Visibility = Visibility.Collapsed;
+            CheckText.Content = servicesLine;
+            Verify.Visibility = Visibility.Visible;
+            PrintWithMoney.IsEnabled = true;
+            PrintWithCard.IsEnabled = true;
         }
 
         private void WaitSpinner_MediaEnded(object sender, RoutedEventArgs e)

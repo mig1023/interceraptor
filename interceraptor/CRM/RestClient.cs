@@ -3,6 +3,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 
 namespace interceraptor.CRM
 {
@@ -23,8 +24,13 @@ namespace interceraptor.CRM
 
             if (withUserId)
             {
-                Connect connect = Connect.Get();
-                _httpClient.DefaultRequestHeaders.Add("UUID", connect.Current.UserId);
+                IEnumerable<string> _;
+
+                if (!_httpClient.DefaultRequestHeaders.TryGetValues("UUID", out _))
+                {
+                    Connect connect = Connect.Get();
+                    _httpClient.DefaultRequestHeaders.Add("UUID", connect.Current.UserId);
+                }
             }
 
             var response = await _httpClient.PostAsync(url, content);

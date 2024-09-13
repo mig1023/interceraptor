@@ -12,6 +12,8 @@ namespace interceraptor.Create
 
         private List<CRM.ServicesData> _services { get; set; }
 
+        private List<CRM.ServicesData> _servicesPriced { get; set; }
+
         private DocPack() { }
 
         public static DocPack Get()
@@ -33,8 +35,19 @@ namespace interceraptor.Create
         {
             CRM.Calculate calculator = CRM.Calculate.Get();
 
-            var response = await calculator.DocPack(_services);
+            // prices from interface
+            _servicesPriced = await calculator.DocPack(_services);
 
+            return true;
+        }
+
+        public List<CRM.ServicesData> List()
+        {
+            return _servicesPriced;
+        }
+
+        public async Task<bool> Print()
+        {
             return true;
         }
     }

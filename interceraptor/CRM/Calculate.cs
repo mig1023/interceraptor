@@ -43,7 +43,7 @@ namespace interceraptor.CRM
             {
                 pricedServices = JsonConvert.DeserializeObject<List<CRM.ServicesData>>(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
