@@ -11,17 +11,17 @@ namespace interceraptor.CRM
     {
         private static RestClient _restClient = new RestClient();
 
-        public static async Task<String> Send(string url, object data = null)
+        public static async Task<String> Send(string url, object data = null, bool withUserId = false)
         {
             HttpResponseMessage response;
-            
+
             if (data == null)
             {
                 response = await _restClient.GetDataAsync(url);
             }
             else
             {
-                response = await _restClient.PostDataAsync(url, data);
+                response = await _restClient.PostDataAsync(url, data, withUserId);
             }
 
             if (!response.IsSuccessStatusCode)

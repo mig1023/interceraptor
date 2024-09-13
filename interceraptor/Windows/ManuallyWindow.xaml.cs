@@ -192,11 +192,16 @@ namespace interceraptor.Windows
             } 
         }
 
-        private void CloseCheck_Click(object sender, RoutedEventArgs e)
+        private async void CloseCheck_Click(object sender, RoutedEventArgs e)
         {
             Services.Visibility = Visibility.Collapsed;
             Prices.Visibility = Visibility.Collapsed;
             Wait.Visibility = Visibility.Visible;
+
+            Create.DocPack docPack = Create.DocPack.Get();
+            var services = Create.Services.Get();
+            docPack.Init(services.List);
+            var calculedDocPack = await docPack.Calculate();
         }
 
         private void WaitSpinner_MediaEnded(object sender, RoutedEventArgs e)

@@ -15,5 +15,7 @@ namespace interceraptor.CRM
         public const string CashierPath = IP + ":80/conf/user/";
 
         public const string ServicesPath = IP + ":80/?keys=";
+        
+        public const string CaltulatePath = IP + ":80/pay/service";
     }
 }
