@@ -54,7 +54,7 @@ namespace interceraptor.Create
             
             foreach (var service in _servicesPriced)
             {
-                total += service.price;
+                total += service.price * service.qty;
             }
 
             decimal money;
