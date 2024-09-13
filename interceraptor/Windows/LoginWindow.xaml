@@ -13,7 +13,7 @@
             <Button x:Name="LetsConnect" Content="залогиниться" Margin="10" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="107" Height="37" Click="LetsConnect_Click"/>
         </StackPanel>
         <StackPanel x:Name="Wait" Orientation="Vertical" VerticalAlignment="Center" Visibility="Hidden" HorizontalAlignment="Stretch">
-            <MediaElement x:Name="WaitSpinner" Height="275" Width="269" UnloadedBehavior="Manual" Source="Images/spinner.gif" LoadedBehavior="Play" Stretch="None" MediaEnded="WaitSpinner_MediaEnded" />
+            <MediaElement x:Name="WaitSpinner" UnloadedBehavior="Manual" Source="Images/spinner.gif" LoadedBehavior="Play" Stretch="None" MediaEnded="WaitSpinner_MediaEnded" />
             <Label x:Name="WaitFor" FontSize="15" Margin="0,-20,0,0" Content="" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>

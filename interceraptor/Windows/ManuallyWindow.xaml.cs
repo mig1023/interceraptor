@@ -110,6 +110,7 @@ namespace interceraptor.Windows
                     FontSize = 18,
                     Margin = new Thickness(2),
                     Width = 40,
+                    Background = service.Background,
                 };
                 subButton.Click += (s, r) => ServiceSubClick(s, id);
                 stack.Children.Add(subButton);
@@ -166,6 +167,7 @@ namespace interceraptor.Windows
                         TextWrapping = TextWrapping.Wrap
                     },
                     Margin = new Thickness(2),
+                    Padding = new Thickness(4),
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                 };
 
@@ -188,6 +190,19 @@ namespace interceraptor.Windows
                     column += 1;
                 }
             } 
+        }
+
+        private void CloseCheck_Click(object sender, RoutedEventArgs e)
+        {
+            Services.Visibility = Visibility.Collapsed;
+            Prices.Visibility = Visibility.Collapsed;
+            Wait.Visibility = Visibility.Visible;
+        }
+
+        private void WaitSpinner_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            WaitSpinner.Position = new TimeSpan(0, 0, 1);
+            WaitSpinner.Play();
         }
     }
 }
