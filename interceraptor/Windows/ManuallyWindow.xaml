@@ -5,14 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:interceraptor.Windows"
         mc:Ignorable="d"
-        Title="ManuallyWindow" Height="300" Width="300" Closed="Window_Closed">
+        Title="ManuallyWindow" Height="600" Width="800" Closed="Window_Closed">
     <Grid>
-        <Grid x:Name="Services" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-        </Grid>
+        <StackPanel>
+            <Grid x:Name="Services" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Grid x:Name="Prices" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+                    <Label Content="телефон или email для электронного чека" FontSize="12" HorizontalAlignment="Center"/>
+                    <TextBox x:Name="email" Height="20" Width="220" FontSize="22" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

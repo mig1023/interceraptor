@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DrvFRLib;
+using System;
 
 namespace interceraptor.Cashbox
 {
@@ -31,16 +32,34 @@ namespace interceraptor.Cashbox
         private string GetCashboxDriver()
         {
             _driver = new DrvFR();
-            _driver.FindDevice();
     
-            _driver.ReadSerialNumber();
+            try
+            {
+                _driver.FindDevice();
+                _driver.ReadSerialNumber();
+            }
+            catch
+            {
+                return null;
+            }
+            
             return _singleton._driver.SerialNumber;
         }
 
-        public bool Check()
+        public bool Check(out string error)
         {
             _driver.CheckConnection();
-            return _driver.ResultCode == 0;
+
+            if (_driver.ResultCode == 0)
+            {
+                error = String.Empty;
+                return true;
+            }
+            else
+            {
+                error = _driver.ResultCodeDescription;
+                return false;
+            }
         }
     }
 }

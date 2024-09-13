@@ -53,7 +53,48 @@ namespace interceraptor.Cashbox
                 _driver.StringForPrinting = new String('-', 36);
                 _driver.PrintString();
             }
+        }
 
+        private void AddAgentInfo(string name, string phone, string inn)
+        {
+            _driver.TagNumber = 1222;
+            _driver.TagType = 0;
+            _driver.TagValueInt = 16;   // 16  --> 00000100 - 5 бит c нулевого (поверенный)
+            _driver.FNSendTagOperation();
+
+            int my_TagID = _driver.TagID;
+
+            _driver.TagNumber = 1224;
+            _driver.FNBeginSTLVTag();
+
+            _driver.TagID = my_TagID;
+            _driver.TagNumber = 1225;
+            _driver.TagType = 7;
+            _driver.TagValueStr = name;
+            _driver.FNAddTag();
+
+            _driver.TagID = my_TagID;
+            _driver.TagNumber = 1171;
+            _driver.TagType = 7;
+            _driver.TagValueStr = phone;
+            _driver.FNAddTag();
+
+            _driver.FNSendSTLVTagOperation();
+
+            _driver.TagNumber = 1226;
+            _driver.TagType = 7;
+            _driver.TagValueStr = inn;
+            _driver.FNSendTagOperation();
+        }
+
+        private void AddAgentInfoByDepartment(int department)
+        {
+            if (department == 2)
+                AddAgentInfo("КОНСУЛЬСТВО", "+74951234567", "74951234567");
+            else if (department == 4)
+                AddAgentInfo("СТРАХОВКА 1", "+74951234567", "74951234567");
+            else if (department == 5)
+                AddAgentInfo("СТРАХОВКА 1", "+74951234567", "74951234567");
         }
 
         public Server.PayResponse Print(JObject doc)
@@ -102,18 +143,19 @@ namespace interceraptor.Cashbox
                 string utf8 = Win1251toUTF8(service["name"].ToString());
                 _driver.StringForPrinting = UTF8ToWin1251(utf8);
 
-                _driver.Department = int.Parse(service["department"].ToString());
+                var department = int.Parse(service["department"].ToString());
+                _driver.Department = department;
 
                 _driver.Tax1 = int.Parse(service["taxGroup"].ToString());
                 _driver.Tax2 = 0;
                 _driver.Tax3 = 0;
                 _driver.Tax4 = 0;
 
-                _driver.PaymentItemSign = 4; // признак УСЛУГИ
-                _driver.PaymentTypeSign = 4; // полный расчёт
+                _driver.PaymentItemSign = 4;
+                _driver.PaymentTypeSign = 4;
                 _driver.FNOperation();
 
-                //AddAgentInfoByDepartment(service.Department);
+                AddAgentInfoByDepartment(department);
 
                 PrintLine(line: true);
             }
@@ -126,15 +168,11 @@ namespace interceraptor.Cashbox
 
             if (doc["payMethod"].ToString() == "CREDIT_CARD")
             {
-                //Log.Add("тип оплаты: безнал (реальный: " + doc.MoneyType.ToString() + ")");
-
                 _driver.Summ2 = summ;
                 _driver.Summ1 = 0;
             }
             else
             {
-                //Log.Add("тип оплаты: наличными");
-
                 _driver.Summ1 = summ;
                 _driver.Summ2 = 0;
             }
@@ -150,11 +188,9 @@ namespace interceraptor.Cashbox
             int checkClosingResult = _driver.ResultCode;
             string checkClosingErrorText = _driver.ResultCodeDescription;
 
-            /// tmp
+            /// printing
 
             var response = new Server.PayResponse();
-
-            //Log.AddWithCode("распечатка чека");
 
             if (checkClosingResult != 0)
             {
@@ -167,8 +203,6 @@ namespace interceraptor.Cashbox
                     type = "CASHDESK",
                     message = _driver.ResultCodeDescription,
                 };
-
-                //Log.AddWithCode("отмена чека");
             }
             else
             {

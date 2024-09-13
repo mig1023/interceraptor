@@ -22,10 +22,11 @@ namespace interceraptor.Windows
             Waiting("Подключение к кассе...");
 
             var cashbox = await Cashbox.Connect.Get();
+            var error = String.Empty;
 
-            if (!cashbox.Check())
+            if (!cashbox.Check(out error))
             {
-                MessageBox.Show("Cashbox connection error!");
+                MessageBox.Show($"Ошибка подключения к кассе:\n{error}");
                 Disconnect();
                 return;
             }
@@ -38,7 +39,7 @@ namespace interceraptor.Windows
 
             if (!isConnected)
             {
-                MessageBox.Show("Error: " + server.Current.Error);
+                MessageBox.Show($"Ошибка подключения к серверу:\n{server.Current.Error}");
                 Disconnect();
                 return;
             }
@@ -51,7 +52,7 @@ namespace interceraptor.Windows
 
             if (!isPingSuccess)
             {
-                MessageBox.Show("Server ping error!");
+                MessageBox.Show($"Ошибка подключения к серверу:\nНет пинга");
                 Disconnect();
                 return;
             }
@@ -65,7 +66,7 @@ namespace interceraptor.Windows
 
             if (!loaded)
             {
-                MessageBox.Show("Services loading error!");
+                MessageBox.Show($"Ошибка получения данных с сервера или их неправильный формат");
                 Disconnect();
                 return;
             }
@@ -77,7 +78,7 @@ namespace interceraptor.Windows
 
             if (currentCashier.isLocked)
             {
-                MessageBox.Show("Cashiers locked!");
+                MessageBox.Show($"Ошибка установки данных кассира:\nКассир заблокирован в системе");
                 Disconnect();
                 return;
             }
@@ -86,7 +87,7 @@ namespace interceraptor.Windows
 
             if (!setting.Cashier(currentCashier.cashier))
             {
-                MessageBox.Show("Cashiers error!");
+                MessageBox.Show($"Ошибка установки данных кассира");
                 Disconnect();
                 return;
             }

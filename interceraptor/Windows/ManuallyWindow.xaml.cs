@@ -54,10 +54,10 @@ namespace interceraptor.Windows
                 int column = Grid.GetColumn(element);
                 int row = Grid.GetRow(element);
 
-                RemoveElement($"count_{id}", (element as StackPanel).Children);
-                RemoveElement($"sub_{id}", (element as StackPanel).Children);
+                RemoveElement($"count_{id}", (element as DockPanel).Children);
+                RemoveElement($"sub_{id}", (element as DockPanel).Children);
                 
-                (element as StackPanel).Children.Remove(addButton);
+                (element as DockPanel).Children.Remove(addButton);
 
                 Services.Children.Add(addButton);
                 Grid.SetColumn(addButton, column);
@@ -82,11 +82,13 @@ namespace interceraptor.Windows
                 int column = Grid.GetColumn(service);
                 int row = Grid.GetRow(service);
 
-                var stack = new StackPanel
+                var stack = new DockPanel
                 {
                     Name = $"stack_{id}",
                     Margin = new Thickness(2),
-                    Orientation = Orientation.Horizontal,
+                    LastChildFill = true,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
                 };
 
                 var serviceCount = new Label
@@ -94,21 +96,28 @@ namespace interceraptor.Windows
                     Name = $"count_{id}",
                     Content = services.Count(id),
                     Width = 50,
+                    FontSize = 24,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center,
                 };
                 stack.Children.Add(serviceCount);
-
-                Services.Children.Remove(service);
-                stack.Children.Add(service);
+                DockPanel.SetDock(serviceCount, Dock.Left);
 
                 var subButton = new Button
                 {
                     Name = $"sub_{id}",
                     Content = "X",
+                    FontSize = 18,
                     Margin = new Thickness(2),
-                    Width = 150,
+                    Width = 40,
                 };
                 subButton.Click += (s, r) => ServiceSubClick(s, id);
                 stack.Children.Add(subButton);
+                DockPanel.SetDock(subButton, Dock.Right);
+
+                Services.Children.Remove(service);
+                stack.Children.Add(service);
+                DockPanel.SetDock(service, Dock.Right);
 
                 Services.Children.Add(stack);
                 Grid.SetColumn(stack, column);
@@ -157,6 +166,7 @@ namespace interceraptor.Windows
                         TextWrapping = TextWrapping.Wrap
                     },
                     Margin = new Thickness(2),
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
                 };
 
                 button.Click += (s, r) => ServiceAddClick(s, service.id);
