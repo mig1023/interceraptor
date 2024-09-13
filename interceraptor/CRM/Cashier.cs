@@ -29,9 +29,9 @@ namespace interceraptor.CRM
 
             try
             {
-                response = await Request.Send(url + connect.Current.UserId);
+                response = await Request.Send(url + connect.Current.UserId, withToken: true);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
             }

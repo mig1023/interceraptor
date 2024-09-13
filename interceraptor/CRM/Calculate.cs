@@ -22,26 +22,46 @@ namespace interceraptor.CRM
             return _singleton;
         }
 
-        public async Task<List<CRM.ServicesData>> DocPack(List<CRM.ServicesData> services)
+        private List<ServicesRequestData> PackRequestData(List<ServicesData> services)
         {
-            string url = CRM.Secret.CaltulatePath;
+            var servicesMinData = new List<ServicesRequestData>();
+
+            foreach (var service in services)
+            {
+                var minData = new ServicesRequestData
+                {
+                    id = service.id,
+                    qty = service.qty,
+                    price = service.price,
+                    comment = String.Empty,
+                };
+
+                servicesMinData.Add(minData);
+            }
+
+            return servicesMinData;
+        }
+
+        public async Task<List<ServicesData>> DocPack(List<ServicesData> services)
+        {
+            string url = Secret.CaltulatePath;
             string response = String.Empty;
             Connect connect = Connect.Get();
 
             try
             {
-                response = await Request.Send(url, services, withUserId: true);
+                response = await Request.Send(url, PackRequestData(services), withToken: true);
             }
             catch (Exception)
             {
                 return null;
             }
 
-            List<CRM.ServicesData> pricedServices;
+            List<ServicesData> pricedServices;
 
             try
             {
-                pricedServices = JsonConvert.DeserializeObject<List<CRM.ServicesData>>(response);
+                pricedServices = JsonConvert.DeserializeObject<List<ServicesData>>(response);
             }
             catch (Exception)
             {

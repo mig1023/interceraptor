@@ -40,7 +40,7 @@ namespace interceraptor.CRM
 
             try
             {
-                data = await Request.Send(url);
+                data = await Request.Send(url, withToken: true);
             }
             catch (Exception)
             {

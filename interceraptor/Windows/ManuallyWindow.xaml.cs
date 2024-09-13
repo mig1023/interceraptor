@@ -21,7 +21,7 @@ namespace interceraptor.Windows
             InitializeComponent();
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        private void Window_Closing(object sender, EventArgs e)
         {
             this.Owner.Show();
         }

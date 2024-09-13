@@ -8,14 +8,14 @@ namespace interceraptor.CRM
 
         private const string IP = "127.0.0.1";
 
-        public const string AuthenticationPath = IP + ":80/login?login=string&password=string";
+        public const string AuthenticationPath = IP + "idp/login?login=string&password=string";
 
-        public const string EchoPath = IP + ":80/echo";
+        public const string EchoPath = IP + "cashdesk/echo";
 
-        public const string CashierPath = IP + ":80/conf/user/";
+        public const string CashierPath = IP + "configurator/conf/user/";
 
-        public const string ServicesPath = IP + ":80/?keys=";
-        
-        public const string CaltulatePath = IP + ":80/pay/service";
+        public const string ServicesPath = IP + "dispatcher/config/?keys=";
+
+        public const string CaltulatePath = IP + "cashdesk/pay/service";
     }
 }

@@ -37,10 +37,22 @@ namespace interceraptor.Windows
             };
 
             manuallyWindow.InitServicesTable();
-
             manuallyWindow.Owner = this;
-
             manuallyWindow.Show();
+        }
+
+        private void ReportsButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+
+            ReportsWindow reportsWindow = new ReportsWindow
+            {
+                Left = this.Left,
+                Top = this.Top,
+            };
+
+            reportsWindow.Owner = this;
+            reportsWindow.Show();
         }
     }
 }
