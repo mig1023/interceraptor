@@ -220,11 +220,8 @@ namespace interceraptor.Windows
             PrintWithCard.IsEnabled = true;
         }
 
-        private async void PrintWithMoney_Click(object sender, RoutedEventArgs e)
+        private void PrintResultOutput(Server.PayResponse response)
         {
-            Create.DocPack docPack = Create.DocPack.Get();
-            Server.PayResponse response = await docPack.Print(Email.Text);
-
             if (response.error != null)
             {
                 MessageBox.Show($"Ошибка печати чека:\n{response.error.message}");
@@ -233,6 +230,20 @@ namespace interceraptor.Windows
             {
                 MessageBox.Show($"Сдача: {response.cashChange}");
             }
+        }
+
+        private async void PrintWithMoney_Click(object sender, RoutedEventArgs e)
+        {
+            Create.DocPack docPack = Create.DocPack.Get();
+            Server.PayResponse response = await docPack.Print(CashMoney.Text, Email.Text, "MONEY");
+            PrintResultOutput(response);
+        }
+
+        private async void PrintWithCard_Click(object sender, RoutedEventArgs e)
+        {
+            Create.DocPack docPack = Create.DocPack.Get();
+            Server.PayResponse response = await docPack.Print(String.Empty, Email.Text, "CREDIT_CARD");
+            PrintResultOutput(response);
         }
 
         private void WaitSpinner_MediaEnded(object sender, RoutedEventArgs e)

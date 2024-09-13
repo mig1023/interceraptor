@@ -97,7 +97,7 @@ namespace interceraptor.Cashbox
                 AddAgentInfo("СТРАХОВКА 1", "+74951234567", "74951234567");
         }
 
-        public Server.PayResponse Print(JObject doc)
+        public Server.PayResponse Print(JObject doc, bool noCorr = false)
         {
 
             //if (doc.Services.Count > 0 && doc.Services[0].ReturnShipping == 1)
@@ -144,8 +144,16 @@ namespace interceraptor.Cashbox
                 _driver.Quantity = int.Parse(service["qty"].ToString());
                 _driver.Price = decimal.Parse(service["price"].ToString());
 
-                string utf8 = Win1251toUTF8(service["name"].ToString());
-                _driver.StringForPrinting = UTF8ToWin1251(utf8);
+                if (noCorr)
+                {
+                    _driver.StringForPrinting = service["name"].ToString();
+                }
+                else
+                {
+                    string utf8 = Win1251toUTF8(service["name"].ToString());
+                    _driver.StringForPrinting = UTF8ToWin1251(utf8);
+                }
+                
 
                 var department = int.Parse(service["department"].ToString());
                 _driver.Department = department;
@@ -205,7 +213,7 @@ namespace interceraptor.Cashbox
                 response.error = new Server.PayResponse.ErrorType
                 {
                     type = "CASHDESK",
-                    message = _driver.ResultCodeDescription,
+                    message = checkClosingErrorText,
                 };
             }
             else

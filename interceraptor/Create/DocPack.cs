@@ -48,8 +48,35 @@ namespace interceraptor.Create
             return _servicesPriced;
         }
 
-        public async Task<Server.PayResponse> Print(string email)
+        public async Task<Server.PayResponse> Print(string moneyLine, string email, string payMethod)
         {
+            decimal total = 0;
+            
+            foreach (var service in _servicesPriced)
+            {
+                total += service.price;
+            }
+
+            decimal money;
+
+            if (payMethod == "CREDIT_CARD")
+            {
+                money = total;
+            }
+            else
+            {
+                if (!decimal.TryParse(moneyLine, out money))
+                {
+                    return new Server.PayResponse
+                    {
+                        error = new Server.PayResponse.ErrorType
+                        {
+                            message = "Не указана или не верно указана сумма наличных"
+                        }
+                    };
+                }
+            }
+
             JObject docPack = JObject.FromObject(new
             {
                 agreement = new
@@ -60,12 +87,12 @@ namespace interceraptor.Create
                 {
                     email = email,
                 },
-                cashTotal = 100,
-                payMethod = "CREDIT_CARD",
+                cashTotal = money,
+                payMethod = payMethod,
             });
 
             Cashbox.Printer cashbox = Cashbox.Printer.Get();
-            return cashbox.Print(docPack);
+            return cashbox.Print(docPack, noCorr: true);
         }
     }
 }
