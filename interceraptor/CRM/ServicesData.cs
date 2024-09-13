@@ -13,5 +13,9 @@ namespace interceraptor.CRM
         public string name { get; set; }
 
         public int? group { get; set; }
+
+        public int count { get; set; }
+
+        public int price { get; set; }
     }
 }

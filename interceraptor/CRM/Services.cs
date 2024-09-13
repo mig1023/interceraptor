@@ -15,6 +15,11 @@ namespace interceraptor.CRM
 
         public List<ServicesData> List { get { return _services; } }
 
+        public Dictionary<string, ServicesData> Dictionary
+        {
+            get { return _services.ToDictionary(x => x.id, x => x); }
+        }
+
         private Services() { }
 
         public static Services Get()

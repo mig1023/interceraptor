@@ -32,8 +32,100 @@ namespace interceraptor.Windows
             return (Brush)(new BrushConverter().ConvertFrom(colors[group]));
         }
 
+        private UIElement RemoveElement(string name, UIElementCollection childrens)
+        {
+            var element = LogicalTreeHelper.FindLogicalNode(this, name) as UIElement;
+            childrens.Remove(element);
+
+            return element;
+        }
+
+        private void ServiceSubClick(object sender, string id)
+        {
+            var services = Create.Services.Get();
+            services.Sub(id);
+
+            if (services.Count(id) == 0)
+            {
+                var service = sender as Button;
+                var addButton = LogicalTreeHelper.FindLogicalNode(this, $"add_{id}") as Button;
+
+                var element = RemoveElement($"stack_{id}", Services.Children);
+                int column = Grid.GetColumn(element);
+                int row = Grid.GetRow(element);
+
+                RemoveElement($"count_{id}", (element as StackPanel).Children);
+                RemoveElement($"sub_{id}", (element as StackPanel).Children);
+                
+                (element as StackPanel).Children.Remove(addButton);
+
+                Services.Children.Add(addButton);
+                Grid.SetColumn(addButton, column);
+                Grid.SetRow(addButton, row);
+            }
+            else
+            {
+                var serviceCount = LogicalTreeHelper.FindLogicalNode(this, $"count_{id}") as Label;
+                serviceCount.Content = services.Count(id);
+            }
+        }
+
+        private void ServiceAddClick(object sender, string id)
+        {
+            var services = Create.Services.Get();
+            services.Add(id);
+
+            if (services.Count(id) == 1)
+            {
+                var service = sender as Button;
+
+                int column = Grid.GetColumn(service);
+                int row = Grid.GetRow(service);
+
+                var stack = new StackPanel
+                {
+                    Name = $"stack_{id}",
+                    Margin = new Thickness(2),
+                    Orientation = Orientation.Horizontal,
+                };
+
+                var serviceCount = new Label
+                {
+                    Name = $"count_{id}",
+                    Content = services.Count(id),
+                    Width = 50,
+                };
+                stack.Children.Add(serviceCount);
+
+                Services.Children.Remove(service);
+                stack.Children.Add(service);
+
+                var subButton = new Button
+                {
+                    Name = $"sub_{id}",
+                    Content = "X",
+                    Margin = new Thickness(2),
+                    Width = 150,
+                };
+                subButton.Click += (s, r) => ServiceSubClick(s, id);
+                stack.Children.Add(subButton);
+
+                Services.Children.Add(stack);
+                Grid.SetColumn(stack, column);
+                Grid.SetRow(stack, row);
+            }
+            else
+            {
+                var serviceCount = LogicalTreeHelper.FindLogicalNode(this, $"count_{id}") as Label;
+                serviceCount.Content = services.Count(id);
+            }
+        }
+
         public void InitServicesTable()
         {
+            var services = Create.Services.Get();
+            services.Init();
+
             var crmServices = CRM.Services.Get();
 
             int maxRow = crmServices.List.Count / 3;
@@ -57,6 +149,7 @@ namespace interceraptor.Windows
             {
                 var button = new Button
                 {
+                    Name = $"add_{service.id}",
                     Content = new TextBlock
                     {
                         Text = service.name,
@@ -65,6 +158,8 @@ namespace interceraptor.Windows
                     },
                     Margin = new Thickness(2),
                 };
+
+                button.Click += (s, r) => ServiceAddClick(s, service.id);
 
                 if (service.group != null)
                 {
