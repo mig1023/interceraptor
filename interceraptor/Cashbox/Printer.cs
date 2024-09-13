@@ -111,14 +111,16 @@ namespace interceraptor.Cashbox
             _driver.OpenCheck();
 
             string customerCheck = String.Empty;
+            string email = doc["customer"]?["email"]?.ToString() ?? String.Empty;
+            string tel = doc["customer"]?["tel"]?.ToString() ?? String.Empty;
 
-            if (!String.IsNullOrEmpty(doc["customer"]["email"].ToString()))
+            if (!String.IsNullOrEmpty(email))
             {
-                customerCheck = doc["customer"]["email"].ToString();
+                customerCheck = email;
             }
-            else if (!String.IsNullOrEmpty(doc["customer"]["tel"].ToString()))
+            else if (!String.IsNullOrEmpty(tel))
             {
-                customerCheck = doc["customer"]["tel"].ToString();
+                customerCheck = tel;
             }
 
             if (!String.IsNullOrEmpty(customerCheck))
@@ -127,9 +129,11 @@ namespace interceraptor.Cashbox
                 _driver.FNSendCustomerEmail();
             }
 
-            if (!String.IsNullOrEmpty(doc["agreement"]["barcode"].ToString()))
+            string barcode = doc["agreement"]["barcode"]?.ToString() ?? String.Empty;
+
+            if (!String.IsNullOrEmpty(barcode))
             {
-                PrintLine("Договор: " + doc["agreement"]["barcode"].ToString());
+                PrintLine($"Договор: {barcode}");
             }
 
             foreach (var service in doc["agreement"]["services"])

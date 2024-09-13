@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,11 +32,12 @@ namespace interceraptor.Create
             _services = new List<CRM.ServicesData>(services);
         }
 
-        public async Task<bool> Calculate()
+        public async Task<bool> Calculate(string rgs, string kl, string fox)
         {
             CRM.Calculate calculator = CRM.Calculate.Get();
 
-            // prices from interface
+            // Parsing.Service
+
             _servicesPriced = await calculator.DocPack(_services);
 
             return true;
@@ -46,9 +48,24 @@ namespace interceraptor.Create
             return _servicesPriced;
         }
 
-        public async Task<bool> Print()
+        public async Task<Server.PayResponse> Print(string email)
         {
-            return true;
+            JObject docPack = JObject.FromObject(new
+            {
+                agreement = new
+                {
+                    services = _servicesPriced,
+                },
+                customer = new
+                {
+                    email = email,
+                },
+                cashTotal = 100,
+                payMethod = "CREDIT_CARD",
+            });
+
+            Cashbox.Printer cashbox = Cashbox.Printer.Get();
+            return cashbox.Print(docPack);
         }
     }
 }

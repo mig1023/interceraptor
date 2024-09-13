@@ -203,7 +203,7 @@ namespace interceraptor.Windows
 
             docPack.Init(services.List);
 
-            var calculedDocPack = await docPack.Calculate();
+            var calculedDocPack = await docPack.Calculate(RGS.Text, KL.Text, Fox.Text);
 
             string servicesLine = String.Empty;
 
@@ -218,6 +218,21 @@ namespace interceraptor.Windows
             Verify.Visibility = Visibility.Visible;
             PrintWithMoney.IsEnabled = true;
             PrintWithCard.IsEnabled = true;
+        }
+
+        private async void PrintWithMoney_Click(object sender, RoutedEventArgs e)
+        {
+            Create.DocPack docPack = Create.DocPack.Get();
+            Server.PayResponse response = await docPack.Print(Email.Text);
+
+            if (response.error != null)
+            {
+                MessageBox.Show($"Ошибка печати чека:\n{response.error.message}");
+            }
+            else
+            {
+                MessageBox.Show($"Сдача: {response.cashChange}");
+            }
         }
 
         private void WaitSpinner_MediaEnded(object sender, RoutedEventArgs e)

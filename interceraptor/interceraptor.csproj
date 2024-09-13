@@ -71,6 +71,7 @@
     <Compile Include="Cashbox\Printer.cs" />
     <Compile Include="Cashbox\Setting.cs" />
     <Compile Include="Create\DocPack.cs" />
+    <Compile Include="Create\Parsing.cs" />
     <Compile Include="Create\Services.cs" />
     <Compile Include="CRM\Calculate.cs" />
     <Compile Include="CRM\Cashier.cs" />
