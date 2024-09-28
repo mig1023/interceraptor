@@ -47,12 +47,9 @@ namespace interceraptor.Create
             return (decimal)decimalTemporary;
         }
 
-        public async Task<bool> Calculate(string rgs, string kl, string fox)
+        public async Task<bool> Calculate()
         {
             CRM.Calculate calculator = CRM.Calculate.Get();
-
-            // Parsing.Service
-
             _servicesPriced = await calculator.DocPack(_services);
 
             return true;

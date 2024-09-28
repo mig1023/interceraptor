@@ -263,10 +263,26 @@ namespace interceraptor.Windows
             } 
         }
 
+        private void RowText(string text, int row, int column)
+        {
+            var label = new Label
+            {
+                Content = new TextBlock
+                {
+                    Text = text,
+                    TextWrapping = TextWrapping.WrapWithOverflow
+                }
+            };
+
+            CheckData.Children.Add(label);
+            Grid.SetRow(label, row);
+            Grid.SetColumn(label, column);
+        }
+
         private async void CloseCheck_Click(object sender, RoutedEventArgs e)
         {
             Services.Visibility = Visibility.Collapsed;
-            Prices.Visibility = Visibility.Collapsed;
+            Additional.Visibility = Visibility.Collapsed;
             Wait.Visibility = Visibility.Visible;
 
             Create.DocPack docPack = Create.DocPack.Get();
@@ -274,18 +290,25 @@ namespace interceraptor.Windows
 
             docPack.Init(services.List);
 
-            var calculedDocPack = await docPack.Calculate(RGS.Text, KL.Text, Fox.Text);
-
-            string servicesLine = String.Empty;
-
-            foreach (var service in docPack.List())
-            {
-                servicesLine += service.name + "\t" + service.qty + " шт\t" + service.price + " р\n";
-            }
+            var calculedDocPack = await docPack.Calculate();
 
             CloseCheck.IsEnabled = false;
             Wait.Visibility = Visibility.Collapsed;
-            CheckText.Content = servicesLine;
+
+            int row = 0;
+
+            foreach (var service in docPack.List())
+            {
+                CheckData.RowDefinitions.Add(new RowDefinition());
+
+                RowText(service.name, row, 0);
+                RowText(service.price.ToString(), row, 1);
+                RowText(service.qty.ToString(), row, 2);
+                RowText(service.summ.ToString(), row, 3);
+
+                row += 1;
+            }
+
             Verify.Visibility = Visibility.Visible;
             PrintWithMoney.IsEnabled = true;
             PrintWithCard.IsEnabled = true;

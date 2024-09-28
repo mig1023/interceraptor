@@ -16,6 +16,8 @@ namespace interceraptor.CRM
 
         public decimal price { get; set; }
 
+        public decimal summ { get { return price * qty; } }
+
         public int? group { get; set; }
 
         public int taxGroup { get; set; }
