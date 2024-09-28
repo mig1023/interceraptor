@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:interceraptor.Windows"
         mc:Ignorable="d"
-        Title="ReportsWindow" Height="300" Width="640" Closing="Window_Closing">
+        Title="ReportsWindow" Height="300" Width="800" Closing="Window_Closing">
     <DockPanel LastChildFill="True">
         <Grid Grid.Column="0" Grid.Row="2" DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
@@ -47,16 +47,16 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Button x:Name="ReportWithCleaning" Grid.Column="0" Grid.Row="0" Margin="4" Background="Crimson" Click="ReportWithCleaning_Click">
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">отчёт с гашением</TextBlock>
+                    <TextBlock TextAlignment="Center" FontSize="16" TextWrapping="Wrap">отчёт с гашением</TextBlock>
                 </Button>
                 <Button x:Name="ReportWithoutCleaning" Grid.Column="1" Grid.Row="0" Margin="4" Click="ReportWithoutCleaning_Click">
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">отчёт без гашения</TextBlock>
+                    <TextBlock TextAlignment="Center" FontSize="16" TextWrapping="Wrap">отчёт без гашения</TextBlock>
                 </Button>
                 <Button x:Name="ReportByDepartment" Grid.Column="2" Grid.Row="0" Margin="4" Click="ReportByDepartment_Click">
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">отчёт по отделам</TextBlock>
+                    <TextBlock TextAlignment="Center" FontSize="16" TextWrapping="Wrap">отчёт по отделам</TextBlock>
                 </Button>
                 <Button x:Name="TaxReport" Grid.Column="3" Grid.Row="0" Margin="4" Click="TaxReport_Click">
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">отчёт по налогам</TextBlock>
+                    <TextBlock TextAlignment="Center" FontSize="16" TextWrapping="Wrap">отчёт по налогам</TextBlock>
                 </Button>
             </Grid>
             <Grid Grid.Column="0" Grid.Row="1" Margin="10,0,10,0">
@@ -69,13 +69,13 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Button x:Name="RepeatDocumet" Grid.Column="0" Grid.Row="0" Margin="4" Click="RepeatDocumet_Click">
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">повтор чека</TextBlock>
+                    <TextBlock TextAlignment="Center" FontSize="16" TextWrapping="Wrap">повтор чека</TextBlock>
                 </Button>
                 <Button x:Name="ContinueDocument" Grid.Column="1" Grid.Row="0" Margin="4" Click="ContinueDocument_Click">
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">продолженить печати</TextBlock>
+                    <TextBlock TextAlignment="Center" FontSize="16" TextWrapping="Wrap">продолженить печати</TextBlock>
                 </Button>
                 <Button x:Name="CancelDocument" Grid.Column="2" Grid.Row="0" Margin="4" Click="CancelDocument_Click">
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">аннулировать чек</TextBlock>
+                    <TextBlock TextAlignment="Center" FontSize="16" TextWrapping="Wrap">аннулировать чек</TextBlock>
                 </Button>
             </Grid>
         </Grid>
