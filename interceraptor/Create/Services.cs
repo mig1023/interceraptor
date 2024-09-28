@@ -82,11 +82,8 @@ namespace interceraptor.Create
             if (_services[id].qty > 0)
                 _services[id].qty -= 1;
 
-            if (_services[id].price > 0)
-            {
-                _services[id].price = 0;
-                _services[id].comment = String.Empty;
-            }
+            if (_services[id].qty <= 0)
+                _services.Remove(id);
         }
 
         public int Count(string id)
