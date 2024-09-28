@@ -12,6 +12,8 @@ namespace interceraptor.CRM
 
         public string name { get; set; }
 
+        public string title { get; set; }
+
         public string department { get; set; }
 
         public decimal price { get; set; }

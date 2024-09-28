@@ -31,7 +31,7 @@ namespace interceraptor.Windows
             ServiceName.Content = crmServices.List
                 .Where(x => x.id == id)
                 .FirstOrDefault()
-                .name;
+                .title;
 
             if (withComment)
             {

@@ -111,7 +111,8 @@ namespace interceraptor.CRM
                 var service = new ServicesData
                 {
                     id = items[id]["id"],
-                    name = token["printLabel"].ToString()
+                    name = token["printLabel"].ToString(),
+                    title = items[id]["name"]
                 };
 
                 if (groups.ContainsKey(service.id))

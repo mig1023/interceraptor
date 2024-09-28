@@ -233,9 +233,10 @@ namespace interceraptor.Windows
                     Name = $"add_{service.id}",
                     Content = new TextBlock
                     {
-                        Text = service.name,
+                        Text = service.title,
                         TextAlignment = TextAlignment.Center,
-                        TextWrapping = TextWrapping.Wrap
+                        TextWrapping = TextWrapping.Wrap,
+                        FontSize = 16
                     },
                     Margin = new Thickness(2),
                     Padding = new Thickness(4),
@@ -263,20 +264,29 @@ namespace interceraptor.Windows
             } 
         }
 
-        private void RowText(string text, int row, int column)
+        private void RowText(string text, int row, int column, bool selected = false)
         {
             var label = new Label
             {
                 Content = new TextBlock
                 {
                     Text = text,
-                    TextWrapping = TextWrapping.WrapWithOverflow
+                    TextWrapping = TextWrapping.WrapWithOverflow,
+                    FontSize = selected ? 14 : 10
                 }
             };
 
             CheckData.Children.Add(label);
             Grid.SetRow(label, row);
             Grid.SetColumn(label, column);
+        }
+
+        private void RowLine(string first, string second, string third, string fourth, int row, bool selected = false)
+        {
+            RowText(first, row, 0, selected);
+            RowText(second, row, 1, selected);
+            RowText(third, row, 2, selected);
+            RowText(fourth, row, 3, selected);
         }
 
         private async void CloseCheck_Click(object sender, RoutedEventArgs e)
@@ -295,19 +305,21 @@ namespace interceraptor.Windows
             CloseCheck.IsEnabled = false;
             Wait.Visibility = Visibility.Collapsed;
 
-            int row = 0;
+            RowLine("НАИМЕНОВАНИЕ", "ЦЕНА", String.Empty, "СУММА", 0, selected: true);
+
+            int row = 1;
+            decimal summ = 0;
 
             foreach (var service in docPack.List())
             {
                 CheckData.RowDefinitions.Add(new RowDefinition());
+                RowLine(service.name, service.price.ToString(), service.qty.ToString(), service.summ.ToString(), row);
 
-                RowText(service.name, row, 0);
-                RowText(service.price.ToString(), row, 1);
-                RowText(service.qty.ToString(), row, 2);
-                RowText(service.summ.ToString(), row, 3);
-
+                summ += service.summ;
                 row += 1;
             }
+
+            RowLine("ИТОГО", String.Empty, String.Empty, summ.ToString(), row, selected: true);
 
             Verify.Visibility = Visibility.Visible;
             PrintWithMoney.IsEnabled = true;

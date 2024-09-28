@@ -65,11 +65,15 @@
                         <ScrollViewer Width="420" CanContentScroll="True" Margin="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
                             <Grid x:Name="CheckData" Width="400" OverridesDefaultStyle="False">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="300"/>
-                                    <ColumnDefinition Width="40"/>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="65"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="65"/>
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
                             </Grid>
                         </ScrollViewer>
                     </Border>
