@@ -79,6 +79,7 @@
     <Compile Include="CRM\ServicesRequestData.cs" />
     <Compile Include="CRM\Services.cs" />
     <Compile Include="CRM\ServicesData.cs" />
+    <Compile Include="Output\MessageBoxes.cs" />
     <Compile Include="Server\Client.cs" />
     <Compile Include="Server\Listner.cs" />
     <Compile Include="Server\Parser.cs" />

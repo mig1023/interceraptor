@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,20 @@ namespace interceraptor.Create
         public void Init(List<CRM.ServicesData> services)
         {
             _services = new List<CRM.ServicesData>(services);
+        }
+
+        public decimal ParseDecimal(string line)
+        {
+            double decimalTemporary = 0;
+
+            line = line.Replace(",", ".");
+
+            if (line == String.Empty)
+                decimalTemporary = 0;
+            else
+                Double.TryParse(line, NumberStyles.Any, CultureInfo.InvariantCulture, out decimalTemporary);
+
+            return (decimal)decimalTemporary;
         }
 
         public async Task<bool> Calculate(string rgs, string kl, string fox)

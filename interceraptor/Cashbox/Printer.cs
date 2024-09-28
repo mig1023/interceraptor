@@ -11,6 +11,7 @@ namespace interceraptor.Cashbox
     class Printer
     {
         private DrvFR _driver { get; set; }
+        private delegate int Report();
 
         static int CashierPassword = 1;
         static int AdminPassword = 30;
@@ -227,6 +228,57 @@ namespace interceraptor.Cashbox
 
             return response;
         }
+
+        private bool ReportPrinting(Report reportPrinting)
+        {
+            PrepareDriver(admin: true);
+
+            reportPrinting();
+
+            return (_driver.ResultCode == 0 ? true : false);
+        }
+
+        public bool ReportCleaning() =>
+            ReportPrinting(() => _driver.PrintReportWithCleaning());
+
+        public bool ReportWithoutCleaning() =>
+            ReportPrinting(() => _driver.PrintReportWithoutCleaning());
+
+        public bool ReportDepartment() =>
+            ReportPrinting(() => _driver.PrintDepartmentReport());
+
+        public bool ReportTax() =>
+            ReportPrinting(() => _driver.PrintTaxReport());
+
+        public bool RepeatPrint() =>
+            ReportPrinting(() => _driver.RepeatDocument());
+
+        public bool ContinueDocument() =>
+            ReportPrinting(() => _driver.ContinuePrint());
+
+        public bool CancelDocument() =>
+            ReportPrinting(() => _driver.CancelCheck());
+
+        private bool CashOperation(Report cashOperation, string summ)
+        {
+            PrepareDriver();
+
+            var docPack = Create.DocPack.Get();
+
+            _driver.Summ1 = docPack.ParseDecimal(summ);
+            cashOperation();
+
+            return (_driver.ResultCode == 0 ? true : false);
+        }
+
+        public bool CashIncome(string summ) =>
+            CashOperation(() => _driver.CashIncome(), summ);
+
+        public bool CashOutcome(string summ) =>
+            CashOperation(() => _driver.CashOutcome(), summ);
+
+        public string LastError() =>
+            _driver.ResultCodeDescription;
 
         private string Win1251toUTF8(string sourceStr)
         {
