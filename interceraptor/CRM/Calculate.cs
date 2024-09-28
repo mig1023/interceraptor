@@ -42,11 +42,16 @@ namespace interceraptor.CRM
             return servicesMinData;
         }
 
-        public async Task<List<ServicesData>> DocPack(List<ServicesData> services)
+        public async Task<List<ServicesData>> DocPack(List<ServicesData> services, string date)
         {
             string url = Secret.CaltulatePath;
             string response = String.Empty;
             Connect connect = Connect.Get();
+            
+            if (!String.IsNullOrEmpty(date))
+            {
+                url += $"/{date}";
+            }
 
             try
             {

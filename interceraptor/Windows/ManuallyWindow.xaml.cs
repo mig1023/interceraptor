@@ -300,7 +300,15 @@ namespace interceraptor.Windows
 
             docPack.Init(services.List);
 
-            var calculedDocPack = await docPack.Calculate();
+            string date = String.Empty;
+
+            if (!String.IsNullOrEmpty(Date.Text))
+            {
+                DateTime dateTime = DateTime.Parse(Date.Text);
+                date = dateTime.ToString("yyyy-MM-dd");
+            }
+
+            var calculedDocPack = await docPack.Calculate(date);
 
             CloseCheck.IsEnabled = false;
             Wait.Visibility = Visibility.Collapsed;
@@ -343,7 +351,7 @@ namespace interceraptor.Windows
             Create.DocPack docPack = Create.DocPack.Get();
             bool returnSale = Payback.IsChecked ?? false;
             string cash = payMethod == "MONEY" ? CashMoney.Text : String.Empty;
-            Server.PayResponse response = await docPack.Print(cash, Email.Text, payMethod, returnSale);
+            Server.PayResponse response = await docPack.Print(cash, Email.Text, payMethod, returnSale, FP.Text);
             PrintResultOutput(response);
 
             return true;
@@ -351,21 +359,9 @@ namespace interceraptor.Windows
 
         private async void PrintWithMoney_Click(object sender, RoutedEventArgs e) =>
             await Printing("MONEY");
-        //{
-        //    Create.DocPack docPack = Create.DocPack.Get();
-        //    bool returnSale = Payback.IsChecked ?? false;
-        //    Server.PayResponse response = await docPack.Print(CashMoney.Text, Email.Text, "MONEY", returnSale);
-        //    PrintResultOutput(response);
-        //}
 
         private async void PrintWithCard_Click(object sender, RoutedEventArgs e) =>
             await Printing("CREDIT_CARD");
-        //{
-        //    Create.DocPack docPack = Create.DocPack.Get();
-        //    bool returnSale = Payback.IsChecked ?? false;
-        //    Server.PayResponse response = await docPack.Print(String.Empty, Email.Text, "CREDIT_CARD", returnSale);
-        //    PrintResultOutput(response);
-        //}
 
         private void WaitSpinner_MediaEnded(object sender, RoutedEventArgs e)
         {

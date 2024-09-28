@@ -106,7 +106,8 @@ namespace interceraptor.Cashbox
             _driver.FNSendTag();
         }
 
-        public Server.PayResponse Print(JObject doc, bool utfCorrection = false, bool returnSale = false)
+        public Server.PayResponse Print(JObject doc, string fp = "",
+            bool utfCorrection = false, bool returnSale = false)
         {
             //if (doc.Services.Count > 0 && doc.Services[0].ReturnShipping == 1)
             //    returnSale = true;
@@ -196,10 +197,10 @@ namespace interceraptor.Cashbox
                 _driver.Summ2 = 0;
             }
 
-            //if (!String.IsNullOrEmpty(fdCorrection))
-            //{
-            //    AddCorrectionFDNum(fdCorrection);
-            //}
+            if (!String.IsNullOrEmpty(fp))
+            {
+                AddCorrectionFD(fp);
+            }
 
             _driver.FNCloseCheckEx();
 

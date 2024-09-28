@@ -47,10 +47,10 @@ namespace interceraptor.Create
             return (decimal)decimalTemporary;
         }
 
-        public async Task<bool> Calculate()
+        public async Task<bool> Calculate(string date)
         {
             CRM.Calculate calculator = CRM.Calculate.Get();
-            _servicesPriced = await calculator.DocPack(_services);
+            _servicesPriced = await calculator.DocPack(_services, date);
 
             return true;
         }
@@ -60,7 +60,8 @@ namespace interceraptor.Create
             return _servicesPriced;
         }
 
-        public async Task<Server.PayResponse> Print(string moneyLine, string email, string payMethod, bool returnSale)
+        public async Task<Server.PayResponse> Print(string moneyLine, string email,
+            string payMethod, bool returnSale, string fpCorrection)
         {
             decimal total = 0;
             
@@ -104,7 +105,7 @@ namespace interceraptor.Create
             });
 
             Cashbox.Printer cashbox = Cashbox.Printer.Get();
-            return cashbox.Print(docPack, returnSale: returnSale);
+            return cashbox.Print(docPack, fp: fpCorrection, returnSale: returnSale);
         }
     }
 }
