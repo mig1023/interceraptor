@@ -6,8 +6,8 @@ namespace interceraptor.Windows
 {
     public partial class PriceManual : Window
     {
-        public delegate void AddAction(string price, string comment);
-        public delegate void RemoveAction();
+        public delegate void AddAction(string price, string comment, object button);
+        public delegate void RemoveAction(object button);
 
         private string _selectedServiceId { get; set; }
 
@@ -36,21 +36,25 @@ namespace interceraptor.Windows
             if (withComment)
             {
                 CommentPanel.Visibility = Visibility.Visible;
-                Grid.SetColumnSpan(Head, 1);
                 Grid.SetColumnSpan(PricePanel, 1);
             }
             else
             {
                 CommentPanel.Visibility = Visibility.Collapsed;
-                Grid.SetColumnSpan(Head, 2);
                 Grid.SetColumnSpan(PricePanel, 2);
             }
         }
 
+        public void LoadPriceComment(string price, string comment)
+        {
+            Price.Text = price;
+            Comment.Text = comment;
+        }
+
         private void Add_Click(object sender, RoutedEventArgs e) =>
-            _addAction(Price.Text, Comment.Text);
+            _addAction(Price.Text, Comment.Text, sender);
 
         private void Remove_Click(object sender, RoutedEventArgs e) =>
-            _removeAction();
+            _removeAction(sender);
     }
 }

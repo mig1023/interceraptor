@@ -44,46 +44,105 @@ namespace interceraptor.Windows
             return element;
         }
 
-        private void ServiceSubClick(object sender, string id)
+        private void PriceManualClose(object button)
         {
-            var services = Create.Services.Get();
-            services.Sub(id);
+            var window = Window.GetWindow(button as DependencyObject);
+            window.Hide();
+        }
 
-            if (services.Count(id) == 0)
+        private void ServiceButtonWithContent(object sender, string id, int count, bool priced = false)
+        {
+            var service = sender as Button;
+
+            int column = Grid.GetColumn(service);
+            int row = Grid.GetRow(service);
+
+            var stack = new DockPanel
             {
-                var service = sender as Button;
-                var addButton = LogicalTreeHelper.FindLogicalNode(this, $"add_{id}") as Button;
+                Name = $"stack_{id}",
+                Margin = new Thickness(2),
+                LastChildFill = true,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+            };
 
-                var element = RemoveElement($"stack_{id}", Services.Children);
-                int column = Grid.GetColumn(element);
-                int row = Grid.GetRow(element);
+            var serviceCount = new Label
+            {
+                Name = $"count_{id}",
+                Content = count,
+                Width = 50,
+                FontSize = 24,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+            };
+            stack.Children.Add(serviceCount);
+            DockPanel.SetDock(serviceCount, Dock.Left);
 
-                RemoveElement($"count_{id}", (element as DockPanel).Children);
+            if (!priced)
+            {
+                var subButton = new Button
+                {
+                    Name = $"sub_{id}",
+                    Content = "X",
+                    FontSize = 18,
+                    Margin = new Thickness(2),
+                    Width = 40,
+                    Background = service.Background,
+                };
+                subButton.Click += (s, r) => ServiceSubClick(s, id);
+                stack.Children.Add(subButton);
+                DockPanel.SetDock(subButton, Dock.Right);
+            }
+
+            Services.Children.Remove(service);
+            stack.Children.Add(service);
+            DockPanel.SetDock(service, Dock.Right);
+
+            Services.Children.Add(stack);
+            Grid.SetColumn(stack, column);
+            Grid.SetRow(stack, row);
+        }
+
+        private void ServiceButtonWithoutContent(object sender, string id, bool priced = false)
+        {
+            var service = sender as Button;
+            var addButton = LogicalTreeHelper.FindLogicalNode(this, $"add_{id}") as Button;
+
+            var element = RemoveElement($"stack_{id}", Services.Children);
+            int column = Grid.GetColumn(element);
+            int row = Grid.GetRow(element);
+
+            RemoveElement($"count_{id}", (element as DockPanel).Children);
+
+            if (!priced)
                 RemoveElement($"sub_{id}", (element as DockPanel).Children);
-                
-                (element as DockPanel).Children.Remove(addButton);
 
-                Services.Children.Add(addButton);
-                Grid.SetColumn(addButton, column);
-                Grid.SetRow(addButton, row);
-            }
-            else
-            {
-                var serviceCount = LogicalTreeHelper.FindLogicalNode(this, $"count_{id}") as Label;
-                serviceCount.Content = services.Count(id);
-            }
+            (element as DockPanel).Children.Remove(addButton);
+
+            Services.Children.Add(addButton);
+            Grid.SetColumn(addButton, column);
+            Grid.SetRow(addButton, row);
         }
 
-        private void PriceManualAddClick(object sender, string id, string price, string comment)
+        private void PriceManualAddClick(object sender, string id, string price, string comment, object button)
         {
             var services = Create.Services.Get();
+            
+            if (services.Count(id) == 0)
+                ServiceButtonWithContent(sender, id, 1, priced: true);
+
             services.Add(id, price, comment);
+
+            PriceManualClose(button);
         }
 
-        private void PriceManualRemoveClick(object sender, string id)
+        private void PriceManualRemoveClick(object sender, string id, object button)
         {
             var services = Create.Services.Get();
             services.Sub(id);
+
+            ServiceButtonWithoutContent(sender, id, priced: true);
+            PriceManualClose(button);
         }
 
         private void ServiceAddClick(object sender, string id)
@@ -100,8 +159,14 @@ namespace interceraptor.Windows
                 priceManual.Top = top + (this.Height / 2) - (priceManual.Height / 2);
 
                 priceManual.InitPriceCommentTable(services.Properties(id).isComment, id,
-                    (price, comment) => PriceManualAddClick(sender, id, price, comment),
-                    () => PriceManualRemoveClick(sender, id));
+                    (price, comment, button) => PriceManualAddClick(sender, id, price, comment, button),
+                    (button) => PriceManualRemoveClick(sender, id, button));
+
+                if (services.Count(id) != 0)
+                {
+                    CRM.ServicesData service = services.List.Where(x => x.id == id).FirstOrDefault();
+                    priceManual.LoadPriceComment(service.price.ToString(), service.comment);
+                }
 
                 priceManual.Owner = this;
                 priceManual.Show();
@@ -110,57 +175,28 @@ namespace interceraptor.Windows
             {
                 services.Add(id);
 
-                var service = sender as Button;
-
-                int column = Grid.GetColumn(service);
-                int row = Grid.GetRow(service);
-
-                var stack = new DockPanel
-                {
-                    Name = $"stack_{id}",
-                    Margin = new Thickness(2),
-                    LastChildFill = true,
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch,
-                };
-
-                var serviceCount = new Label
-                {
-                    Name = $"count_{id}",
-                    Content = services.Count(id),
-                    Width = 50,
-                    FontSize = 24,
-                    HorizontalContentAlignment = HorizontalAlignment.Center,
-                    VerticalContentAlignment = VerticalAlignment.Center,
-                };
-                stack.Children.Add(serviceCount);
-                DockPanel.SetDock(serviceCount, Dock.Left);
-
-                var subButton = new Button
-                {
-                    Name = $"sub_{id}",
-                    Content = "X",
-                    FontSize = 18,
-                    Margin = new Thickness(2),
-                    Width = 40,
-                    Background = service.Background,
-                };
-                subButton.Click += (s, r) => ServiceSubClick(s, id);
-                stack.Children.Add(subButton);
-                DockPanel.SetDock(subButton, Dock.Right);
-
-                Services.Children.Remove(service);
-                stack.Children.Add(service);
-                DockPanel.SetDock(service, Dock.Right);
-
-                Services.Children.Add(stack);
-                Grid.SetColumn(stack, column);
-                Grid.SetRow(stack, row);
+                ServiceButtonWithContent(sender, id, services.Count(id));
             }
             else
             {
                 services.Add(id);
 
+                var serviceCount = LogicalTreeHelper.FindLogicalNode(this, $"count_{id}") as Label;
+                serviceCount.Content = services.Count(id);
+            }
+        }
+
+        private void ServiceSubClick(object sender, string id)
+        {
+            var services = Create.Services.Get();
+            services.Sub(id);
+
+            if (services.Count(id) == 0)
+            {
+                ServiceButtonWithoutContent(sender, id);
+            }
+            else
+            {
                 var serviceCount = LogicalTreeHelper.FindLogicalNode(this, $"count_{id}") as Label;
                 serviceCount.Content = services.Count(id);
             }
