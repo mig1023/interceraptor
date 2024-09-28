@@ -21,5 +21,9 @@ namespace interceraptor.CRM
         public int taxGroup { get; set; }
 
         public int qty { get; set; }
+
+        public bool isPriceManual { get; set; }
+
+        public bool isComment { get; set; }
     }
 }

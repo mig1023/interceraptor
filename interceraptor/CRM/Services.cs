@@ -61,13 +61,15 @@ namespace interceraptor.CRM
             return json;
         }
 
-        private Dictionary<string, string> Sort(JObject list, string listName, string key, string value)
+        private Dictionary<string, Dictionary<string, string>> Separator(JObject list,
+            string listName, string key)
         {
-            var dictionary = new Dictionary<string, string>();
+            var dictionary = new Dictionary<string, Dictionary<string, string>>();
 
             foreach (var token in list[listName])
             {
-                dictionary.Add(token[key].ToString(), token[value].ToString());
+                var dict = token.ToObject<Dictionary<string, string>>();
+                dictionary.Add(token[key].ToString(), dict);
             }
 
             return dictionary;
@@ -75,20 +77,19 @@ namespace interceraptor.CRM
 
         public async Task<bool> Load()
         {
-            JObject items = await DataRequest("cashdeskitem");
+            JObject itemsJson = await DataRequest("cashdeskitem");
 
-            if (items == null)
+            if (itemsJson == null)
                 return false;
 
-            var itemsDict = Sort(items, "cashdeskitem", "nomenclatureId", "groupId");
-            var itemsIds = Sort(items, "cashdeskitem", "nomenclatureId", "id");
+            var items = Separator(itemsJson, "cashdeskitem", "nomenclatureId");
 
-            JObject groups = await DataRequest("cashdeskitemgroup");
+            JObject groupsJson = await DataRequest("cashdeskitemgroup");
 
-            if (groups == null)
+            if (groupsJson == null)
                 return false;
 
-            var groupDict = Sort(groups, "cashdeskitemgroup", "id", "index");
+            var groups = Separator(groupsJson, "cashdeskitemgroup", "id");
 
             JObject services = await DataRequest("nomenclature");
 
@@ -104,21 +105,23 @@ namespace interceraptor.CRM
 
                 string id = token["id"].ToString();
 
-                if (!itemsIds.ContainsKey(id))
+                if (!items.ContainsKey(id))
                     continue;
 
                 var service = new ServicesData
                 {
-                    // groupId не выгружается?
-                    id = itemsIds[id],
+                    id = items[id]["id"],
                     name = token["printLabel"].ToString()
                 };
 
-                if (itemsDict.ContainsKey(service.id))
+                if (groups.ContainsKey(service.id))
                 {
-                    string group = groupDict[itemsDict[service.id]];
+                    string group = groups[service.id]["index"];
                     service.group = int.Parse(group);
                 }
+
+                service.isComment = items[id]["isComment"] == "True";
+                service.isPriceManual = items[id]["isPriceManual"] == "True";
 
                 servicesList.Add(service);
             }

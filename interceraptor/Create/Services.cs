@@ -32,6 +32,19 @@ namespace interceraptor.Create
             _services = new Dictionary<string, CRM.ServicesData>();
         }
 
+        public CRM.ServicesData Properties(string id)
+        {
+            if (_services.ContainsKey(id))
+            {
+                return _services[id];
+            }
+            else
+            {
+                var crmServices = CRM.Services.Get();
+                return crmServices.Dictionary[id];
+            }
+        }
+
         public void Add(string id)
         {
             if (_services.ContainsKey(id))

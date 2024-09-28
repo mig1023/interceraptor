@@ -28,8 +28,12 @@ namespace interceraptor.Windows
 
         private Brush ButtonsColorByGroup(int group)
         {
-            var colors = "#66CCFF,#FF7FEE9D,#FFFB9DAE".Split(',');
-            return (Brush)(new BrushConverter().ConvertFrom(colors[group]));
+            var colors = "#66CCFF,#FF7FEE9D,#FFFB9DAE".Split(',').ToList();
+
+            if (group < colors.Count)
+                return (Brush)(new BrushConverter().ConvertFrom(colors[group]));
+            else
+                return SystemColors.WindowBrush;
         }
 
         private UIElement RemoveElement(string name, UIElementCollection childrens)
@@ -75,7 +79,11 @@ namespace interceraptor.Windows
             var services = Create.Services.Get();
             services.Add(id);
 
-            if (services.Count(id) == 1)
+            if (services.Properties(id).isPriceManual)
+            {
+                // window
+            }
+            else if (services.Count(id) == 1)
             {
                 var service = sender as Button;
 
