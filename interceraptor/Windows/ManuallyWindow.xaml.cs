@@ -357,5 +357,19 @@ namespace interceraptor.Windows
             WaitSpinner.Position = new TimeSpan(0, 0, 1);
             WaitSpinner.Play();
         }
+
+        private void Payback_Checked(object sender, RoutedEventArgs e)
+        {
+            PaybackText.Foreground = Brushes.Red;
+            PaybackDate.IsEnabled = true;
+            PaybackFP.IsEnabled = true;
+        }
+
+        private void Payback_Unchecked(object sender, RoutedEventArgs e)
+        {
+            PaybackText.Foreground = Brushes.Black;
+            PaybackDate.IsEnabled = false;
+            PaybackFP.IsEnabled = false;
+        }
     }
 }

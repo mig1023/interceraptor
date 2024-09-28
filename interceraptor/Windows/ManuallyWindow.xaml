@@ -41,7 +41,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                 </Grid>
-                <Grid x:Name="Additional" Grid.Column="0" Grid.Row="1">
+                <Grid x:Name="Additional" Grid.Column="0" Grid.Row="1" Background="#efefef">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -55,6 +55,27 @@
                         <Label Content="телефон или email" FontSize="18" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
                         <Label Content="для электронного чека" FontSize="12" HorizontalAlignment="Center" Margin="0,-15,0,0" DockPanel.Dock="Top"/>
                         <TextBox x:Name="Email" Height="35" Margin="0,-10,0,0" FontSize="22"/>
+                    </DockPanel>
+                    <CheckBox x:Name="Payback" FontSize="18" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Payback_Checked" Unchecked="Payback_Unchecked">
+                        <TextBlock x:Name="PaybackText" Text="чек возрата" Margin="5,-9,0,0"/>
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1.6" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                    <DockPanel x:Name="PaybackDate" Grid.Column="2" Grid.Row="0" Margin="10" LastChildFill="True" IsEnabled="False">
+                        <Label Content="иная дата чека" Margin="0,10,0,0" FontSize="18" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
+                        <DatePicker x:Name="Date" Height="35"   Margin="0,-10,0,0" FontSize="16" VerticalContentAlignment="Center">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="Background" Value="#efefef"/>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+                    </DockPanel>
+                    <DockPanel x:Name="PaybackFP" Grid.Column="3" Grid.Row="0" Margin="10" LastChildFill="True" IsEnabled="False">
+                        <Label Content="ФП некорректного чека" FontSize="14" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
+                        <Label Content="(если нужен)" FontSize="12" HorizontalAlignment="Center" Margin="0,-15,0,0" DockPanel.Dock="Top"/>
+                        <TextBox x:Name="FP" Height="35" Margin="0,-10,0,0" FontSize="22"/>
                     </DockPanel>
                 </Grid>
                 <StackPanel x:Name="Wait" Orientation="Vertical" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
