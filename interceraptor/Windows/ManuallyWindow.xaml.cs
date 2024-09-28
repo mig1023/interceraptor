@@ -74,17 +74,42 @@ namespace interceraptor.Windows
             }
         }
 
+        private void PriceManualAddClick(object sender, string id, string price, string comment)
+        {
+            var services = Create.Services.Get();
+            services.Add(id, price, comment);
+        }
+
+        private void PriceManualRemoveClick(object sender, string id)
+        {
+            var services = Create.Services.Get();
+            services.Sub(id);
+        }
+
         private void ServiceAddClick(object sender, string id)
         {
             var services = Create.Services.Get();
-            services.Add(id);
 
             if (services.Properties(id).isPriceManual)
             {
-                // window
+                double left = this.Left > 0 ? this.Left : 2;
+                double top = this.Top > 0 ? this.Top : 2;
+
+                PriceManual priceManual = new PriceManual();
+                priceManual.Left = left + (this.Width / 2) - (priceManual.Width / 2);
+                priceManual.Top = top + (this.Height / 2) - (priceManual.Height / 2);
+
+                priceManual.InitPriceCommentTable(services.Properties(id).isComment, id,
+                    (price, comment) => PriceManualAddClick(sender, id, price, comment),
+                    () => PriceManualRemoveClick(sender, id));
+
+                priceManual.Owner = this;
+                priceManual.Show();
             }
-            else if (services.Count(id) == 1)
+            else if (services.Count(id) == 0)
             {
+                services.Add(id);
+
                 var service = sender as Button;
 
                 int column = Grid.GetColumn(service);
@@ -134,6 +159,8 @@ namespace interceraptor.Windows
             }
             else
             {
+                services.Add(id);
+
                 var serviceCount = LogicalTreeHelper.FindLogicalNode(this, $"count_{id}") as Label;
                 serviceCount.Content = services.Count(id);
             }

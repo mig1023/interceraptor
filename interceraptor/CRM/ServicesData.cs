@@ -25,5 +25,7 @@ namespace interceraptor.CRM
         public bool isPriceManual { get; set; }
 
         public bool isComment { get; set; }
+
+        public string comment { get; set; }
     }
 }

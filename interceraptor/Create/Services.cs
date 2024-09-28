@@ -60,10 +60,33 @@ namespace interceraptor.Create
             }
         }
 
+        public void Add(string id, string price, string comment)
+        {
+            if (!_services.ContainsKey(id))
+            {
+                var crmServices = CRM.Services.Get();
+                var service = crmServices.Dictionary[id];
+                service.qty = 1;
+                _services.Add(service.id, service);
+            }
+
+            _services[id].price = Decimal.Parse(price);
+            _services[id].comment = comment;
+        }
+
         public void Sub(string id)
         {
-            if (_services.ContainsKey(id) && (_services[id].qty > 0))
+            if (!_services.ContainsKey(id))
+                return;
+
+            if (_services[id].qty > 0)
                 _services[id].qty -= 1;
+
+            if (_services[id].price > 0)
+            {
+                _services[id].price = 0;
+                _services[id].comment = String.Empty;
+            }
         }
 
         public int Count(string id)

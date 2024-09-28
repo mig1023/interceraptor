@@ -91,6 +91,9 @@
     <Compile Include="Windows\ManuallyWindow.xaml.cs">
       <DependentUpon>ManuallyWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PriceManual.xaml.cs">
+      <DependentUpon>PriceManual.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ReportsWindow.xaml.cs">
       <DependentUpon>ReportsWindow.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ManuallyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PriceManual.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
