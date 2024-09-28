@@ -338,19 +338,34 @@ namespace interceraptor.Windows
             }
         }
 
-        private async void PrintWithMoney_Click(object sender, RoutedEventArgs e)
+        private async Task<bool> Printing(string payMethod)
         {
             Create.DocPack docPack = Create.DocPack.Get();
-            Server.PayResponse response = await docPack.Print(CashMoney.Text, Email.Text, "MONEY");
+            bool returnSale = Payback.IsChecked ?? false;
+            string cash = payMethod == "MONEY" ? CashMoney.Text : String.Empty;
+            Server.PayResponse response = await docPack.Print(cash, Email.Text, payMethod, returnSale);
             PrintResultOutput(response);
+
+            return true;
         }
 
-        private async void PrintWithCard_Click(object sender, RoutedEventArgs e)
-        {
-            Create.DocPack docPack = Create.DocPack.Get();
-            Server.PayResponse response = await docPack.Print(String.Empty, Email.Text, "CREDIT_CARD");
-            PrintResultOutput(response);
-        }
+        private async void PrintWithMoney_Click(object sender, RoutedEventArgs e) =>
+            await Printing("MONEY");
+        //{
+        //    Create.DocPack docPack = Create.DocPack.Get();
+        //    bool returnSale = Payback.IsChecked ?? false;
+        //    Server.PayResponse response = await docPack.Print(CashMoney.Text, Email.Text, "MONEY", returnSale);
+        //    PrintResultOutput(response);
+        //}
+
+        private async void PrintWithCard_Click(object sender, RoutedEventArgs e) =>
+            await Printing("CREDIT_CARD");
+        //{
+        //    Create.DocPack docPack = Create.DocPack.Get();
+        //    bool returnSale = Payback.IsChecked ?? false;
+        //    Server.PayResponse response = await docPack.Print(String.Empty, Email.Text, "CREDIT_CARD", returnSale);
+        //    PrintResultOutput(response);
+        //}
 
         private void WaitSpinner_MediaEnded(object sender, RoutedEventArgs e)
         {
@@ -362,14 +377,12 @@ namespace interceraptor.Windows
         {
             PaybackText.Foreground = Brushes.Red;
             PaybackDate.IsEnabled = true;
-            PaybackFP.IsEnabled = true;
         }
 
         private void Payback_Unchecked(object sender, RoutedEventArgs e)
         {
             PaybackText.Foreground = Brushes.Black;
             PaybackDate.IsEnabled = false;
-            PaybackFP.IsEnabled = false;
         }
     }
 }

@@ -98,16 +98,22 @@ namespace interceraptor.Cashbox
                 AddAgentInfo("СТРАХОВКА 1", "+74951234567", "74951234567");
         }
 
-        public Server.PayResponse Print(JObject doc, bool noCorr = false)
+        private void AddCorrectionFD(string fd)
         {
+            _driver.TagNumber = 1192;
+            _driver.TagType = 7;
+            _driver.TagValueStr = fd;
+            _driver.FNSendTag();
+        }
 
+        public Server.PayResponse Print(JObject doc, bool utfCorrection = false, bool returnSale = false)
+        {
             //if (doc.Services.Count > 0 && doc.Services[0].ReturnShipping == 1)
             //    returnSale = true;
 
             PrepareDriver();
 
-            //Driver.CheckType = (returnSale ? 2 : 0);
-            _driver.CheckType = 0;
+            _driver.CheckType = (returnSale ? 2 : 0);
 
             _driver.OpenCheck();
 
@@ -145,7 +151,7 @@ namespace interceraptor.Cashbox
                 _driver.Quantity = int.Parse(service["qty"].ToString());
                 _driver.Price = decimal.Parse(service["price"].ToString());
 
-                if (noCorr)
+                if (!utfCorrection)
                 {
                     _driver.StringForPrinting = service["name"].ToString();
                 }
@@ -190,7 +196,6 @@ namespace interceraptor.Cashbox
                 _driver.Summ2 = 0;
             }
 
-            // данные о чеке, который корректируется
             //if (!String.IsNullOrEmpty(fdCorrection))
             //{
             //    AddCorrectionFDNum(fdCorrection);

@@ -14,7 +14,7 @@ namespace interceraptor.Server
             var json = parser.GetRequestBody(request);
 
             var printer = Cashbox.Printer.Get();
-            var checkData = printer.Print(json);
+            var checkData = printer.Print(json, utfCorrection: true);
 
             Send(checkData, context);
         }

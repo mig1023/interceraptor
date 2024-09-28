@@ -60,7 +60,7 @@ namespace interceraptor.Create
             return _servicesPriced;
         }
 
-        public async Task<Server.PayResponse> Print(string moneyLine, string email, string payMethod)
+        public async Task<Server.PayResponse> Print(string moneyLine, string email, string payMethod, bool returnSale)
         {
             decimal total = 0;
             
@@ -104,7 +104,7 @@ namespace interceraptor.Create
             });
 
             Cashbox.Printer cashbox = Cashbox.Printer.Get();
-            return cashbox.Print(docPack, noCorr: true);
+            return cashbox.Print(docPack, returnSale: returnSale);
         }
     }
 }
