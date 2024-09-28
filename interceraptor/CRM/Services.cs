@@ -81,6 +81,7 @@ namespace interceraptor.CRM
                 return false;
 
             var itemsDict = Sort(items, "cashdeskitem", "nomenclatureId", "groupId");
+            var itemsIds = Sort(items, "cashdeskitem", "nomenclatureId", "id");
 
             JObject groups = await DataRequest("cashdeskitemgroup");
 
@@ -101,9 +102,15 @@ namespace interceraptor.CRM
                 if (token["isEnabled"].ToString() == "false")
                     continue;
 
+                string id = token["id"].ToString();
+
+                if (!itemsIds.ContainsKey(id))
+                    continue;
+
                 var service = new ServicesData
                 {
-                    id = token["id"].ToString(),
+                    // groupId не выгружается?
+                    id = itemsIds[id],
                     name = token["printLabel"].ToString()
                 };
 

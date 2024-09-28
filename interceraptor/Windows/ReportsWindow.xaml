@@ -5,8 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:interceraptor.Windows"
         mc:Ignorable="d"
-        Title="ReportsWindow" Height="300" Width="400" Closing="Window_Closing">
-    <Grid>
-        
-    </Grid>
+        Title="ReportsWindow" Height="300" Width="640" Closing="Window_Closing">
+    <DockPanel LastChildFill="True">
+        <Grid Grid.Column="0" Grid.Row="2" DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Column="0" Grid.Row="0" Margin="10,20,0,10" LastChildFill="True">
+                <Button x:Name="Income" Margin="4" DockPanel.Dock="Right">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Margin="6">внесение в кассу</TextBlock>
+                </Button>
+                <TextBox x:Name="MoneyIncome" FontSize="22" VerticalContentAlignment="Center" Margin="4"/>
+            </DockPanel>
+            <DockPanel Grid.Column="1" Grid.Row="0" Margin="0,20,10,10" LastChildFill="True">
+                <Button x:Name="Outcome" Margin="4" DockPanel.Dock="Right">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Margin="6">выплата из кассы</TextBlock>
+                </Button>
+                <TextBox x:Name="MoneyOutcome" FontSize="22" VerticalContentAlignment="Center" Margin="4"/>
+            </DockPanel>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="0" Grid.Row="0" Margin="10,10,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button x:Name="ReportWithCleaning" Grid.Column="0" Grid.Row="0" Margin="4" Background="Crimson">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">отчёт с гашением</TextBlock>
+                </Button>
+                <Button x:Name="ReportWithoutCleaning" Grid.Column="1" Grid.Row="0" Margin="4">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">отчёт без гашения</TextBlock>
+                </Button>
+                <Button x:Name="ReportByDepartment" Grid.Column="2" Grid.Row="0" Margin="4">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">отчёт по отделам</TextBlock>
+                </Button>
+                <Button x:Name="TaxReport" Grid.Column="3" Grid.Row="0" Margin="4">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">отчёт по налогам</TextBlock>
+                </Button>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="1" Margin="10,0,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button x:Name="RepeatDocumet" Grid.Column="0" Grid.Row="0" Margin="4">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">повтор чека</TextBlock>
+                </Button>
+                <Button x:Name="ContinueDocument" Grid.Column="1" Grid.Row="0" Margin="4">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">продолженить печати</TextBlock>
+                </Button>
+                <Button x:Name="CancelDocument" Grid.Column="2" Grid.Row="0" Margin="4">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">аннулировать чек</TextBlock>
+                </Button>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </Window>

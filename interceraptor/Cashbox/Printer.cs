@@ -222,7 +222,7 @@ namespace interceraptor.Cashbox
                 //repeatPrintingTimer.Start();
 
                 response.checkNo = _driver.DocumentNumber.ToString();
-                response.cashChange = _driver.Change.ToString();
+                response.cashChange = _driver.Change.ToString().Replace(',', '.');
             }
 
             return response;
