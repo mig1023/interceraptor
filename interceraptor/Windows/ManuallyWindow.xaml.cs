@@ -102,6 +102,10 @@ namespace interceraptor.Windows
             var addButton = LogicalTreeHelper.FindLogicalNode(this, $"add_{id}") as Button;
 
             var element = RemoveElement($"stack_{id}", Services.Children);
+
+            if (element == null)
+                return;
+
             int column = Grid.GetColumn(element);
             int row = Grid.GetRow(element);
 
@@ -120,13 +124,18 @@ namespace interceraptor.Windows
         private void PriceManualAddClick(object sender, string id, string price, string comment, object button)
         {
             var services = Create.Services.Get();
-            
-            if (services.Count(id) == 0)
-                ServiceButtonWithContent(sender, id, 1, priced: true);
 
-            services.Add(id, price, comment);
+            if (!services.Add(id, price, comment))
+            {
+                Output.MessageBoxes.Get().MessageBoxError("Неправильное значение в поле цены услуги");
+            }
+            else
+            {
+                if (services.Count(id) == 0)
+                    ServiceButtonWithContent(sender, id, 1, priced: true);
 
-            PriceManualClose(button);
+                PriceManualClose(button);
+            }
         }
 
         private void PriceManualRemoveClick(object sender, string id, object button)
@@ -159,6 +168,11 @@ namespace interceraptor.Windows
                 {
                     CRM.ServicesData service = services.List.Where(x => x.id == id).FirstOrDefault();
                     priceManual.LoadPriceComment(service.price.ToString(), service.comment);
+                    priceManual.Add.Content = "Изменить";
+                }
+                else
+                {
+                    priceManual.Add.Content = "Добавить";
                 }
 
                 priceManual.Owner = this;

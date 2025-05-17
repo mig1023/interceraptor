@@ -60,8 +60,15 @@ namespace interceraptor.Create
             }
         }
 
-        public void Add(string id, string price, string comment)
+        public bool Add(string id, string price, string comment)
         {
+            Decimal decimalPrice;
+
+            var parsing = Decimal.TryParse(price, out decimalPrice);
+
+            if (!parsing)
+                return false;
+
             if (!_services.ContainsKey(id))
             {
                 var crmServices = CRM.Services.Get();
@@ -72,6 +79,8 @@ namespace interceraptor.Create
 
             _services[id].price = Decimal.Parse(price);
             _services[id].comment = comment;
+
+            return true;
         }
 
         public void Sub(string id)
