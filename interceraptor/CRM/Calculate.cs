@@ -46,7 +46,7 @@ namespace interceraptor.CRM
         {
             string url = Secret.CaltulatePath;
             string response = String.Empty;
-            Connect connect = Connect.Get();
+            //Connect connect = Connect.Get();
             
             if (!String.IsNullOrEmpty(date))
             {
