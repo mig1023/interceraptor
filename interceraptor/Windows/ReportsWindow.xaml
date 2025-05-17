@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:interceraptor.Windows"
         mc:Ignorable="d"
-        Title="ReportsWindow" Height="350" Width="800" Closing="Window_Closing">
+        Title="interceraptor" Height="350" Width="800" Closing="Window_Closing">
     <DockPanel LastChildFill="True">
         <Grid Grid.Column="0" Grid.Row="2" DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
@@ -46,7 +46,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Border BorderBrush="#CB4154" BorderThickness="3" Margin="4">
+                <Border BorderBrush="Red" BorderThickness="4" Margin="4">
                     <Button x:Name="ReportWithCleaning" Grid.Column="0" Grid.Row="0" Click="ReportWithCleaning_Click">
                         <TextBlock TextAlignment="Center" FontSize="16" TextWrapping="Wrap">отчёт с гашением</TextBlock>
                     </Button>

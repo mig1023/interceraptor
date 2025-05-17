@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace interceraptor.Windows
 {
@@ -134,6 +135,18 @@ namespace interceraptor.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Login.Focus();
+        }
+
+        private void Password_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                LetsConnect_Click(null, null);
+        }
+
+        private void Login_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                Password.Focus();
         }
     }
 }

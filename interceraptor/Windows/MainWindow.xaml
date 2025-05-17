@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:interceraptor.Windows"
         mc:Ignorable="d"
-        Title="Main" Height="400" Width="900" Closed="Window_Closed">
+        Title="interceraptor" Height="400" Width="900" Closed="Window_Closed">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
