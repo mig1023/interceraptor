@@ -15,6 +15,10 @@ namespace interceraptor.Windows
 
         private async void LetsConnect_Click(object sender, RoutedEventArgs e)
         {
+            Logging.Main.Get().Log(string.Empty);
+            Logging.Main.Get().Log("ЗАПУСК INTERCERAPTOR");
+            Logging.Main.Get().Log(string.Empty);
+
             Waiting("Запуск внутреннего сервера...");
 
             Server.Listener.Start();
@@ -100,6 +104,7 @@ namespace interceraptor.Windows
                 Top = this.Top,
             };
 
+            Logging.Main.Get().Log("Запуск прошёл успешно");
             mainWindow.Show();
         }
 
@@ -119,6 +124,8 @@ namespace interceraptor.Windows
 
             if (Wait.Visibility != Visibility.Visible)
                 Wait.Visibility = Visibility.Visible;
+
+            Logging.Main.Get().Log(text);
         }
 
         private void WaitSpinner_MediaEnded(object sender, RoutedEventArgs e)

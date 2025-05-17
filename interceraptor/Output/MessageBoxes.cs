@@ -21,8 +21,13 @@ namespace interceraptor.Output
 
         private MessageBoxResult MessageBoxYesNo(string message, bool warning = false)
         {
+            Logging.Main.Get().Log($"ЗАПРОС: {message}");
+
             MessageBoxResult result = MessageBox.Show(message, "Внимание!",
                 MessageBoxButton.YesNo, (warning ? MessageBoxImage.Warning : MessageBoxImage.Question));
+
+            var response = result == MessageBoxResult.Yes ? "ДА" : "нет";
+            Logging.Main.Get().Log($"ОТВЕТ: {response}");
 
             return result;
         }
@@ -31,6 +36,8 @@ namespace interceraptor.Output
         {
             MessageBoxResult result = MessageBox.Show(message, "Ошибка!",
                 MessageBoxButton.OK, MessageBoxImage.Error);
+
+            Logging.Main.Get().Log($"Сообщение об ошибке: {message}");
 
             return result;
         }
