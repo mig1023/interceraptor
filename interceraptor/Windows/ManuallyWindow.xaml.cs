@@ -314,7 +314,7 @@ namespace interceraptor.Windows
 
             if (!calculedDocPack)
             {
-                MessageBox.Show($"Ошибка получения данных от сервера");
+                Output.MessageBoxes.Get().MessageBoxError("Ошибка получения данных от сервера");
 
                 Services.Visibility = Visibility.Visible;
                 Additional.Visibility = Visibility.Visible;
@@ -348,7 +348,7 @@ namespace interceraptor.Windows
         {
             if (response.error != null)
             {
-                MessageBox.Show($"Ошибка печати чека:\n{response.error.message}");
+                Output.MessageBoxes.Get().MessageBoxError($"Ошибка печати чека:\n{response.error.message}");
             }
             else
             {

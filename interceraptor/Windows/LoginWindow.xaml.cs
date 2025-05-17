@@ -26,7 +26,7 @@ namespace interceraptor.Windows
 
             if (!cashbox.Check(out error))
             {
-                MessageBox.Show($"Ошибка подключения к кассе:\n{error}");
+                Output.MessageBoxes.Get().MessageBoxError($"Ошибка подключения к кассе:\n{error}");
                 Disconnect();
                 return;
             }
@@ -39,7 +39,7 @@ namespace interceraptor.Windows
 
             if (!isConnected)
             {
-                MessageBox.Show(server.Current.Error);
+                Output.MessageBoxes.Get().MessageBoxError(server.Current.Error);
                 Disconnect();
                 return;
             }
@@ -52,7 +52,7 @@ namespace interceraptor.Windows
 
             if (!isPingSuccess)
             {
-                MessageBox.Show($"Ошибка подключения к серверу:\nНет пинга");
+                Output.MessageBoxes.Get().MessageBoxError("Ошибка подключения к серверу:\nНет пинга");
                 Disconnect();
                 return;
             }
@@ -66,7 +66,7 @@ namespace interceraptor.Windows
 
             if (!loaded)
             {
-                MessageBox.Show($"Ошибка получения данных с сервера или их неправильный формат");
+                Output.MessageBoxes.Get().MessageBoxError("Ошибка получения данных с сервера или их неправильный формат");
                 Disconnect();
                 return;
             }
@@ -78,7 +78,7 @@ namespace interceraptor.Windows
 
             if (currentCashier.isLocked)
             {
-                MessageBox.Show($"Ошибка установки данных кассира:\nКассир заблокирован в системе");
+                Output.MessageBoxes.Get().MessageBoxError("Ошибка установки данных кассира:\nКассир заблокирован в системе");
                 Disconnect();
                 return;
             }
@@ -87,7 +87,7 @@ namespace interceraptor.Windows
 
             if (!setting.Cashier(currentCashier.cashier))
             {
-                MessageBox.Show($"Ошибка установки данных кассира");
+                Output.MessageBoxes.Get().MessageBoxError("Ошибка установки данных кассира");
                 Disconnect();
                 return;
             }
