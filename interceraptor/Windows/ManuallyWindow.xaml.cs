@@ -309,9 +309,19 @@ namespace interceraptor.Windows
             }
 
             var calculedDocPack = await docPack.Calculate(date);
+           
+            Wait.Visibility = Visibility.Collapsed;
+
+            if (!calculedDocPack)
+            {
+                MessageBox.Show($"Ошибка получения данных от сервера");
+
+                Services.Visibility = Visibility.Visible;
+                Additional.Visibility = Visibility.Visible;
+                return;
+            }
 
             CloseCheck.IsEnabled = false;
-            Wait.Visibility = Visibility.Collapsed;
 
             RowLine("НАИМЕНОВАНИЕ", "ЦЕНА", String.Empty, "СУММА", 0, selected: true);
 

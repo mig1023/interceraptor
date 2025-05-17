@@ -52,7 +52,7 @@ namespace interceraptor.Create
             CRM.Calculate calculator = CRM.Calculate.Get();
             _servicesPriced = await calculator.DocPack(_services, date);
 
-            return true;
+            return _servicesPriced != null;
         }
 
         public List<CRM.ServicesData> List()
