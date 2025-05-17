@@ -5,13 +5,13 @@ namespace interceraptor.CRM
 {
     class Secret
     {
-        public const string Version = "4.0";
+        public const string Version = "1.0";
 
         private static string IP
         {
             get
             {
-                return __TemporaryReadInDebugFile("[BASE]");
+                return __TemporaryDebug("[BASE]");
             }
         }
 
@@ -20,7 +20,7 @@ namespace interceraptor.CRM
             get
             {
                 //return IP + "idp/login?login=string&password=string";
-                return IP + __TemporaryReadInDebugFile("[LOGIN]");
+                return IP + __TemporaryDebug("[LOGIN]");
             }
         }
 
@@ -29,7 +29,7 @@ namespace interceraptor.CRM
             get
             {
                 //return IP + "cashdesk/echo";
-                return IP + __TemporaryReadInDebugFile("[ECHO]");
+                return IP + __TemporaryDebug("[ECHO]");
             }
         }
 
@@ -39,7 +39,7 @@ namespace interceraptor.CRM
             get
             {
                 //return IP + "configurator/conf/user/";
-                return IP + __TemporaryReadInDebugFile("[CONFIGURATOR]");
+                return IP + __TemporaryDebug("[CONFIGURATOR]");
             }
         }
 
@@ -48,7 +48,7 @@ namespace interceraptor.CRM
             get
             {
                 //return IP + "dispatcher/config/?keys=";
-                return IP + __TemporaryReadInDebugFile("[DISPATCHER]");
+                return IP + __TemporaryDebug("[DISPATCHER]");
             }
         }
 
@@ -57,11 +57,11 @@ namespace interceraptor.CRM
             get
             {
                 //return IP + "cashdesk/pay/service";
-                return IP + __TemporaryReadInDebugFile("[PAY]");
+                return IP + __TemporaryDebug("[PAY]");
             }
         }
 
-        private static string __TemporaryReadInDebugFile(string type)
+        private static string __TemporaryDebug(string type)
         {
             using (var reader = new StreamReader("debug.api.txt"))
             {

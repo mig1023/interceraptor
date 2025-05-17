@@ -31,7 +31,7 @@ namespace interceraptor.CRM
             {
                 response = await Request.Send(url + connect.Current.UserId, withToken: true);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
