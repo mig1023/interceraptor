@@ -44,6 +44,9 @@ namespace interceraptor.Server
 
         public static void Start()
         {
+            if (_server.IsBusy)
+                return;
+
             _server.DoWork += DoListener;
             _server.RunWorkerAsync();
         }

@@ -106,6 +106,9 @@ namespace interceraptor.Windows
         private void Disconnect()
         {
             //
+
+            Wait.Visibility = Visibility.Hidden;
+            LoginForm.Visibility = Visibility.Visible;
         }
 
         private void Waiting(string text)
