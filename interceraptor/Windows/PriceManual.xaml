@@ -17,9 +17,11 @@
                 <RowDefinition/>
                 <RowDefinition Height="57"/>
             </Grid.RowDefinitions>
-            <StackPanel x:Name="Head" Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
-                <Label x:Name="ServiceName" Content="" FontWeight="Bold"  Margin="10" FontSize="18" HorizontalAlignment="Left"/>
-            </StackPanel>
+            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="LightGray">
+                <StackPanel x:Name="Head" Orientation="Horizontal" >
+                    <Label x:Name="ServiceName" Content="" FontWeight="Bold"  Margin="10" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
             <StackPanel x:Name="PricePanel" Orientation="Vertical" Grid.Column="0" Grid.Row="1">
                 <Label Content="Стоимость услуги:"  Margin="10,10,10,0" FontSize="18" HorizontalAlignment="Left"/>
                 <TextBox x:Name="Price" Height="35" Margin="10" FontSize="22"/>
