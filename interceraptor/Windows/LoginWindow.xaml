@@ -8,9 +8,9 @@
         Title="interceraptor" Height="350" Width="525" Loaded="Window_Loaded">
     <Grid>
         <StackPanel x:Name="LoginForm" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Visible">
-            <TextBox x:Name="Login" HorizontalAlignment="Left" Margin="10" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="374" PreviewKeyDown="Login_PreviewKeyDown"/>
-            <PasswordBox x:Name="Password" HorizontalAlignment="Left" Margin="10" Height="24" VerticalAlignment="Top" Width="374" PreviewKeyDown="Password_PreviewKeyDown"/>
-            <Button x:Name="LetsConnect" Content="залогиниться" Margin="10" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="107" Height="37" Click="LetsConnect_Click"/>
+            <TextBox x:Name="Login" HorizontalAlignment="Left" Margin="10" Height="34" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="6 0 0 0" Width="374" FontSize="16" PreviewKeyDown="Login_PreviewKeyDown"/>
+            <PasswordBox x:Name="Password" HorizontalAlignment="Left" Margin="10" Height="34" VerticalAlignment="Top" Width="374" VerticalContentAlignment="Center" Padding="6 0 0 0" PreviewKeyDown="Password_PreviewKeyDown"/>
+            <Button x:Name="LetsConnect" Content="залогиниться" Margin="10 5 10 10" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="107" Height="45" Click="LetsConnect_Click"/>
         </StackPanel>
         <StackPanel x:Name="Wait" Orientation="Vertical" VerticalAlignment="Center" Visibility="Hidden" HorizontalAlignment="Stretch">
             <MediaElement x:Name="WaitSpinner" UnloadedBehavior="Manual" Source="Images/spinner.gif" LoadedBehavior="Play" Stretch="None" MediaEnded="WaitSpinner_MediaEnded" />
