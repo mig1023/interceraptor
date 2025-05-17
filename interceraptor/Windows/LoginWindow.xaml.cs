@@ -1,7 +1,4 @@
-﻿using interceraptor.Windows;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 
 namespace interceraptor.Windows
@@ -132,6 +129,11 @@ namespace interceraptor.Windows
         {
             WaitSpinner.Position = new TimeSpan(0, 0, 1);
             WaitSpinner.Play();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Login.Focus();
         }
     }
 }
