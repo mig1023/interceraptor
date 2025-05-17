@@ -124,6 +124,7 @@ namespace interceraptor.Windows
         private void PriceManualAddClick(object sender, string id, string price, string comment, object button)
         {
             var services = Create.Services.Get();
+            var count = services.Count(id);
 
             if (!services.Add(id, price, comment))
             {
@@ -131,7 +132,7 @@ namespace interceraptor.Windows
             }
             else
             {
-                if (services.Count(id) == 0)
+                if (count < 1)
                     ServiceButtonWithContent(sender, id, 1, priced: true);
 
                 PriceManualClose(button);
